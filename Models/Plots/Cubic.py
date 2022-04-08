@@ -47,8 +47,8 @@ class Cubic:
         # print(listOfX)
         countIntersections = 0
         for i in range(len(listOfX)):
-            if (isinstance(listOfX[i], complex) is False):
-                x = listOfX[i]
+            if (Solver.is_zero(listOfX[1].imag)):
+                x = listOfX[i].real
                 countIntersections += 1
                 self.specialPoints["B" + str(countIntersections)] = (x, a* (x**3) + b*(x**2)+c*x+d)
         if countIntersections == 1 :

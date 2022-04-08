@@ -3,6 +3,10 @@ import cmath
 
 #一元四次方程
 
+# validate zero in float world
+
+def is_zero(x): 
+    return abs(x) < 1.0E-8
 
 def Quartic(args):
     a, b, c, d, e = args

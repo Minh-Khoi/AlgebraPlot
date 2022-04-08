@@ -110,6 +110,6 @@ class Parabol:
         plt.show()
 
 
-parab = Parabol([-0.4,1,2])
-print(parab.specialPoints)
-parab.drawPlot(rangesY=[-10,10],rangesX=[-3,6])
+# parab = Parabol([-0.4,1,2])
+# print(parab.specialPoints)
+# parab.drawPlot(rangesY=[-10,10],rangesX=[-3,6])
