@@ -47,8 +47,9 @@ class Cubic:
         # print(listOfX)
         countIntersections = 0
         for i in range(len(listOfX)):
-            if (Solver.is_zero(listOfX[1].imag)):
+            if (Solver.is_zero(listOfX[i].imag)):
                 x = listOfX[i].real
+                print(x)
                 countIntersections += 1
                 self.specialPoints["B" + str(countIntersections)] = (x, a* (x**3) + b*(x**2)+c*x+d)
         if countIntersections == 1 :
@@ -176,9 +177,9 @@ class Cubic:
         
 
 
-cubic = Cubic([2,-4,-5,-1])
-print(cubic.specialPoints)
-cubic.drawPlot(rangesX=(-2,3))
+# cubic = Cubic([-4,9,1.6*2,4])
+# print(cubic.specialPoints)
+# cubic.drawPlot(rangesX=(-2,3))
 # for point in cubic.specialPoints.items():
 #     if (point[0].find("B") !=-1):
 #         x = point[1][0]

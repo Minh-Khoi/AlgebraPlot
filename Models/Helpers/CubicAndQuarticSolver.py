@@ -6,7 +6,7 @@ import cmath
 # validate zero in float world
 
 def is_zero(x): 
-    return abs(x) < 1.0E-8
+    return abs(x) < 1*(10**(-8))
 
 def Quartic(args):
     a, b, c, d, e = args
