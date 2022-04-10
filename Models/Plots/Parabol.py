@@ -11,12 +11,14 @@ from fractions import Fraction
 
 
 class Parabol:
-    def __init__(self, paramNums : list[float]) -> None:
+    def __init__(self, paramNums : list[float], selfPlot = True) -> None:
         self.sample = "y= {}x^2 + {}x + {}".format(paramNums[0], paramNums[1], paramNums[2])
         self.paramNumbers = {"a":paramNums[0], "b":paramNums[1], "c":paramNums[2]}
         self.axes : plt.Axes = None
         self.axesForNote: plt.Axes = None
         self.fig, (self.axes, self.axesForNote) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [3, 1]})
+        if selfPlot is False :
+            plt.close(self.fig)
         self.specialNumbers = {}
         self.specialPoints = {}
         self.__defineSpecialness()

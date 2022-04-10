@@ -12,12 +12,14 @@ from Models.Plots.Parabol import Parabol
 
 class Cubic:
     
-    def __init__(self, paramNums: list[float]) -> None:
+    def __init__(self, paramNums: list[float], selfPlot = True) -> None:
         self.sample = "y = {}x^3 + {}x^2 + {}x+ {}".format(paramNums[0], paramNums[1], paramNums[2], paramNums[3])
         self.paramNumbers = {"a": paramNums[0], "b": paramNums[1], "c": paramNums[2], "d": paramNums[3]}
         self.axes : plt.Axes
         self.noteAxes : plt.Axes
         self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [3, 1]})
+        if (selfPlot is False):
+            plt.close(self.fig)
         self.specialNumbers = {}
         self.specialPoints = {}
         self.__defineSpecialness()
@@ -49,7 +51,7 @@ class Cubic:
         for i in range(len(listOfX)):
             if (Solver.is_zero(listOfX[i].imag)):
                 x = listOfX[i].real
-                print(x)
+                # print(x)
                 countIntersections += 1
                 self.specialPoints["B" + str(countIntersections)] = (x, a* (x**3) + b*(x**2)+c*x+d)
         if countIntersections == 1 :
@@ -64,8 +66,8 @@ class Cubic:
         b = self.paramNumbers["b"]
         c = self.paramNumbers["c"]
         d = self.paramNumbers["d"]
-        derivativeFunc = Parabol([3*a, 2*b, c])
-        plt.close(derivativeFunc.fig)
+        derivativeFunc = Parabol(paramNums=[3*a, 2*b, c], selfPlot=False)
+        # plt.close(derivativeFunc.fig)
         if (("B1" in derivativeFunc.specialPoints) is False):
             return
 

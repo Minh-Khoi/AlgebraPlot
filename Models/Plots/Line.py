@@ -10,12 +10,14 @@ from Models.Helpers.PlotNote import PlotNote
 
 class Line:
 
-    def __init__(self, paramNums: list[int]) -> None:
+    def __init__(self, paramNums: list[int], selfPlot = True) -> None:
         self.sample = "y = {a}x + {b}".format(a=paramNums[0], b=paramNums[1])
         self.paramNumbers = {"a" : paramNums[0] , "b" : paramNums[1]}
         self.axes : plt.Axes
         self.noteAxes : plt.Axes
         self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={"width_ratios": (3, 1)})
+        if (selfPlot is False):
+            plt.close(self.fig)
         self.specialNumbers = {}
         self.specialPoints = ({"O": (0,0)}) 
         if (paramNums[0] != 0 and paramNums[1] !=0)  :

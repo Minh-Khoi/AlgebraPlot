@@ -12,13 +12,15 @@ from Models.Plots.Parabol import Parabol
 
 
 class Quartic:
-    def __init__(self, paramNums: list[float]) -> None:
+    def __init__(self, paramNums: list[float], selfPlot = True) -> None:
         self.paramNumbers = {"a": paramNums[0] , "b": paramNums[1], "c": paramNums[2], "d": paramNums[3], "e": paramNums[4]}
         self.sample = "y= {} * x^4 + {} * x^3 + {} * x^2 + {} * x + {}".format(paramNums[0], paramNums[1], 
                                                                                             paramNums[2], paramNums[3], paramNums[4])
         self.axes : plt.Axes = None
         self.noteAxes: plt.Axes = None
         self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [3, 1]})
+        if (selfPlot is False): 
+            plt.close(self.fig)
         self.specialNumbers = {}
         self.specialPoints = {}
         self.__defineSpecialness()
@@ -63,14 +65,14 @@ class Quartic:
         c = self.paramNumbers["c"]
         d = self.paramNumbers["d"]
         e = self.paramNumbers["e"]
-        derivativeFunc = Cubic([4*a , 3*b , 2*c , d])
-        plt.close(derivativeFunc.fig)
-        print(derivativeFunc.specialPoints)
+        derivativeFunc = Cubic(paramNums=[4*a , 3*b , 2*c , d], selfPlot=False)
+        # plt.close(derivativeFunc.fig)
+        # print(derivativeFunc.specialPoints)
         if (("B1" in derivativeFunc.specialPoints or "B" in derivativeFunc.specialPoints) is False):
             return
         countExtremePoint = 0
         for point in derivativeFunc.specialPoints.items():
-            print(point)
+            # print(point)
             if ("B" in point[0]):
                 countExtremePoint +=1
                 x = point[1][0]
@@ -87,8 +89,8 @@ class Quartic:
         c = self.paramNumbers["c"]
         d = self.paramNumbers["d"]
         e = self.paramNumbers["e"]
-        twoLevelDerivativeFunc = Parabol([4*3*a, 3*2*b, 2*c])
-        plt.close(twoLevelDerivativeFunc.fig)
+        twoLevelDerivativeFunc = Parabol(paramNums=[4*3*a, 3*2*b, 2*c], selfPlot=False)
+        # plt.close(twoLevelDerivativeFunc.fig)
         if ("B2" in twoLevelDerivativeFunc.specialPoints):
             x1 = twoLevelDerivativeFunc.specialPoints["B1"][0]
             y1 = a* (x1**4) + b * (x1**3) + c* (x1**2) + d*x1 +e
@@ -175,6 +177,20 @@ class Quartic:
         plt.tight_layout()
         plt.show()
 
-quart = Quartic([-1,3,1.6,4,-1])
+    def check(self, coord: tuple[int]) -> bool:
+        a = self.paramNumbers["a"]
+        b = self.paramNumbers["b"]
+        c = self.paramNumbers["c"]
+        d = self.paramNumbers["d"]
+        e = self.paramNumbers["e"]
+        x = coord[0]
+        y = coord[1]
+        yChecking = a * (x**4) + b*(x**3) + c*(x**2) + d*x + e
+        print("a = {}; b={}; c={}; d={}; e = {}".format(a, b, c, d,e))
+        print(yChecking)
+        return y == yChecking
+
+
+quart = Quartic(paramNums=[-1,3,1.6,4,-1])
 # print(quart.specialPoints)
 quart.drawPlot(rangesX=[-5,5])
