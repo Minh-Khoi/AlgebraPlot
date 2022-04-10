@@ -135,22 +135,25 @@ class Cubic:
         return np.array(returnArray, dtype=float)
         pass
 
-    def drawPlot(self, rangesX = None, rangesY = None):
+    def drawPlot(self, rangesX = None, rangesY = None, activeAxes : plt.Axes  = None, activeNote:plt.Axes=None):
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
         c = self.paramNumbers["c"]
         d = self.paramNumbers["d"]
         
         rangeOX = self.__specifyRange(rangesX)["Ox"] 
-        rangeOY = self.__specifyRange(rangesY)["Oy"] 
-        distanceOfText = {
-            "horizontal": 0.-(rangeOX[1] - rangeOX[0])/20, "vertical": -(rangeOY[1] - rangeOY[0])/20}
-        xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
-        yOfPoints = self.__applyRecipe(xOfPoints)
+        rangeOY = self.__specifyRange(rangesY)["Oy"]
         self.__drawOX(rangeOfValue=rangeOX)
         self.__drawOY(rangeOfValue=rangeOY)
-        self.axes.plot(xOfPoints, yOfPoints)
-        self.axes.axis("equal")
+
+        xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
+        yOfPoints = self.__applyRecipe(xOfPoints)
+        if (activeAxes is None):
+            self.axes.plot(xOfPoints, yOfPoints)
+            self.axes.axis("equal")
+        else:
+            activeAxes.plot(xOfPoints, yOfPoints)
+            activeAxes.axis("equal")
         distanceOfText = {
             "horizontal": -(rangeOX[1] - rangeOX[0])/20,
             "vertical": -(rangeOY[1] - rangeOY[0])/20
@@ -159,8 +162,9 @@ class Cubic:
         for point in self.specialPoints.items():
             name = point[0]
             coord = point[1]
-            self.axes.text(coord[0] , coord[1] , name )
-        note = PlotNote(axes=self.noteAxes, specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
+            self.axes.text(coord[0], coord[1], name)
+        if (activeNote is None):
+            note = PlotNote(axes=self.noteAxes ,specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
 
         plt.tight_layout()
         plt.show()
@@ -179,9 +183,9 @@ class Cubic:
         
 
 
-# cubic = Cubic([-4,9,1.6*2,4])
-# print(cubic.specialPoints)
-# cubic.drawPlot(rangesX=(-2,3))
+cubic = Cubic([-4,9,1.6*2,4])
+print(cubic.specialPoints)
+cubic.drawPlot(rangesX=(-2,3))
 # for point in cubic.specialPoints.items():
 #     if (point[0].find("B") !=-1):
 #         x = point[1][0]

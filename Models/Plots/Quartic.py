@@ -147,7 +147,7 @@ class Quartic:
         return np.array(returnArray, dtype=float)
         pass
 
-    def drawPlot(self, rangesX = None, rangesY = None):
+    def drawPlot(self, rangesX=None, rangesY=None, activeAxes: plt.Axes = None, activeNote: plt.Axes = None):
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
         c = self.paramNumbers["c"]
@@ -161,8 +161,12 @@ class Quartic:
         yOfPoints = self.__applyRecipe(xOfPoints)
         self.__drawOX(rangeOfValue=rangeOX)
         self.__drawOY(rangeOfValue=rangeOY)
-        self.axes.plot(xOfPoints, yOfPoints)
-        self.axes.axis("equal")
+        if (activeAxes is None):
+            self.axes.plot(xOfPoints, yOfPoints)
+            self.axes.axis("equal")
+        else:
+            activeAxes.plot(xOfPoints, yOfPoints)
+            activeAxes.axis("equal")
         distanceOfText = {
             "horizontal": -(rangeOX[1] - rangeOX[0])/20,
             "vertical": -(rangeOY[1] - rangeOY[0])/20
@@ -172,7 +176,8 @@ class Quartic:
             name = point[0]
             coord = point[1]
             self.axes.text(coord[0] , coord[1] , name )
-        note = PlotNote(axes=self.noteAxes, specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
+        if (activeNote is None):
+            note = PlotNote(axes=self.noteAxes , specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
 
         plt.tight_layout()
         plt.show()

@@ -11,7 +11,7 @@ class PlotNote:
         return fraction
         pass
 
-    def __init__(self, axes: plt.Axes, specialPoints: dict, specialNumbers : dict) -> None:
+    def __init__(self, axes: plt.Axes = None, specialPoints: dict = None, specialNumbers : dict = None, multiNotes = False) -> None:
         showedString = ""
         showedString += "Special points: \n"
         for point in specialPoints.items():
@@ -22,6 +22,9 @@ class PlotNote:
         for num in specialNumbers.items():
             showedString += "   {}: {} \n".format(num[0], self.__formatNumberShowed(num[1]))
             pass
+
+        if (multiNotes is True):
+            return
         axes.axis("off")
         axes.text(0, 0, showedString)
         pass

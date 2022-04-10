@@ -64,8 +64,7 @@ class Line:
             returnedList["Oy"] = rangesY
         return returnedList
 
-
-    def drawPlot(self, rangesX = None , rangesY = None):
+    def drawPlot(self, rangesX = None, rangesY = None, activeAxes : plt.Axes  = None, activeNote: plt.Axes=None):
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
         rangeOX = self.__specifyRange(rangesX=rangesX)["Ox"]
@@ -77,12 +76,16 @@ class Line:
         self.__drawOY(rangeOY)
 
         self.axes.text(0, 0, "O")
-
         self.axes.text(0, b,  "A")
-        self.axes.text(- b/a ,0,  "B")
-        self.axes.plot(xOfPoints, yOfPoints)
-        self.axes.axis("equal")
-        note = PlotNote(self.noteAxes, specialPoints=self.specialPoints, specialNumbers=self.specialNumbers)
+        self.axes.text(- b/a ,0, "B")
+        if (activeAxes is None):
+            self.axes.plot(xOfPoints, yOfPoints)
+            self.axes.axis("equal")
+        else:
+            activeAxes.plot(xOfPoints, yOfPoints)
+            activeAxes.axis("equal")
+        if (activeNote is None):
+            note = PlotNote(axes=self.noteAxes ,specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
 
         plt.tight_layout()
         plt.show()
