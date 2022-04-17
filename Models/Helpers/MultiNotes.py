@@ -21,12 +21,15 @@ class MultiNotes:
         pass
 
     def initMultiNotes(self, axesNotes: plt.Axes = None, plotInstances : list = [] )-> str:
-        showedString =''
+        showedStringList =[]
+        colorsList = []
         for plot in plotInstances:
+            showedString = ""
             if (isinstance(plot, (Line,Parabol,Cubic, Quartic))):
                 showedString += plot.sample + ":\n"
                 for point in plot.specialPoints.items():
                     showedString += "    {}: ({}, {}) \n".format(point[0], point[1][0], point[1][0])
+            showedStringList.append(showedString)
+            colorsList.append(plot.color)
         axesNotes.axis("off")
-        axesNotes.text(0, 0, showedString)
         pass
