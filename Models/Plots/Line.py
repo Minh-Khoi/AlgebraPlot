@@ -45,7 +45,7 @@ class Line:
         # print(sortedList)
         return (sortedList[0], sortedList[-1])
 
-    def __specifyRange(self, rangesX = None, rangesY = None) -> dict:
+    def specifyRange(self, rangesX = None, rangesY = None) -> dict:
         arrayYOfPoints = []
         arrayXOfPoints = []
         for point in self.specialPoints.values():
@@ -66,11 +66,11 @@ class Line:
             returnedList["Oy"] = rangesY
         return returnedList
 
-    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False, color=None):
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False):
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
-        rangeOX = self.__specifyRange(rangesX=rangesX)["Ox"]
-        rangeOY = self.__specifyRange(rangesY=rangesY)["Oy"]
+        rangeOX = self.specifyRange(rangesX=rangesX)["Ox"]
+        rangeOY = self.specifyRange(rangesY=rangesY)["Oy"]
 
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = a*xOfPoints + b
@@ -84,7 +84,7 @@ class Line:
             self.axes.text(0, 0, "O")
             self.axes.text(0, b,  "A")
             self.axes.text(- b/a ,0, "B")
-            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.plot(xOfPoints, yOfPoints, color=self.color)
             self.axes.axis("equal")
         
             note = PlotNote(axes=self.noteAxes ,specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)

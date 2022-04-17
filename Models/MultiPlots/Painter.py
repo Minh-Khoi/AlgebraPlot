@@ -30,11 +30,55 @@ class Painter:
         color = self.listOfColors[numColor]
         del self.listOfColors[numColor]
         return color
+        
+    def __findMinMaxInList(self, numList: tuple[int]) -> tuple[int]:
+        sortedList = sorted(numList)
+        # print(numList)
+        return (sortedList[0], sortedList[-1])
 
-    def drawPlots(self):
+    def __drawOX(self, rangeOfValue: list[float]):
+        xOfPoints = np.arange(rangeOfValue[0], rangeOfValue[1], 0.01)
+        yOfPoints = np.zeros(len(xOfPoints))
+        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        pass
+
+    def __drawOY(self, rangeOfValue: list[float]):
+        yOfPoints = np.arange(int(rangeOfValue[0]), int(rangeOfValue[1]), 0.01)
+        xOfPoints = np.zeros(len(yOfPoints))
+        # print(len(xOfPoints))
+        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        pass
+
+    def specifyRange(self, plotsList: list,rangeX = None, rangeY=None) -> dict:
+        rangeOnX = [-0.1,0.1]
+        rangeOnY = [-1,1 ]
+        if (rangeX is not None and  rangeY is not None):
+            return {"rangeOnX": rangeX, "rangeOnY": rangeY}
+
+        for plot in plotsList:
+            if (isinstance(plot, (Line, Parabol, Cubic, Quartic))):
+                rangeOXY = plot.specifyRange(rangesX=rangeX,rangesY=rangeY)
+                if (rangeOXY["Ox"][0] < rangeOnX[0]):
+                    rangeOnX[0] = rangeOXY["Ox"][0]
+                if (rangeOXY["Ox"][1] > rangeOnX[1]):
+                    rangeOnX[1] = rangeOXY["Ox"][1]
+                if (rangeOXY["Oy"][0] < rangeOnY[0]):
+                    rangeOnY[0] = rangeOXY["Oy"][0]
+                if (rangeOXY["Oy"][1] > rangeOnY[1]):
+                    rangeOnY[1] = rangeOXY["Oy"][1]
+        return {"rangeOnX": rangeOnX, "rangeOnY": rangeOnY}
+
+
+    def drawPlots(self, rangeX = None, rangeY=None):
+        rangeOXY = self.specifyRange(self.plotsList)
+        # print(rangeOXY)
+        rangeOX = rangeOXY["rangeOnX"]
+        rangeOY = rangeOXY["rangeOnY"]
+        self.__drawOX(rangeOfValue=rangeOX)
+        self.__drawOY(rangeOfValue=rangeOY)
         for plot in self.plotsList:
             if (isinstance(plot, (Line, Parabol,Cubic, Quartic))):
-                plot.generatePlot(drawInMultiPlots=True)
+                plot.generatePlot(drawInMultiPlots=True, rangesX=rangeOX, rangesY=rangeOY)
                 xOfPoints = plot.x_yOfPoints["x"]
                 yOfPoints = plot.x_yOfPoints["y"]
                 if (plot.color is not None):
@@ -46,6 +90,12 @@ class Painter:
                     color = self.__chooseColor()
                     pass
                 self.axes.plot(xOfPoints,yOfPoints,color=color)
+
+                # mark the point on plot
+                for point in plot.specialPoints.items():
+                    name = point[0]
+                    coord = point[1]
+                    self.axes.text(coord[0], coord[1], name, color=color)
         self.axes.axis("equal")
         
         plt.tight_layout()
@@ -54,10 +104,13 @@ class Painter:
                 
         
 
-cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False, color="pink")
-quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="orange")
+cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="yellow")
+quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="black")
 line = Line(paramNums=[1,-2], selfPlot=False, color="blue")
 listOfPlot = [cubic,quartic, line]
+# for plot in listOfPlot:
+#     print(plot.sample)
+#     print(plot.specialPoints)
 
 painter = Painter(plotsList=listOfPlot)
 painter.drawPlots()

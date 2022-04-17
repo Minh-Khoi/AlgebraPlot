@@ -46,7 +46,7 @@ class Parabol:
         # print(sortedList)
         return (sortedList[0], sortedList[-1])
 
-    def __specifyRange(self, rangesX=None, rangesY=None) -> dict:
+    def specifyRange(self, rangesX=None, rangesY=None) -> dict:
         arrayYOfPoints = []
         arrayXOfPoints = []
         for point in self.specialPoints.values():
@@ -90,9 +90,9 @@ class Parabol:
         self.axes.plot(xOfPoints, yOfPoints, color='red')
         pass
 
-    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False, color=None):
-        rangeOX = self.__specifyRange(rangesX=rangesX)["Ox"]
-        rangeOY = self.__specifyRange(rangesY=rangesY)["Oy"]
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False):
+        rangeOX = self.specifyRange(rangesX=rangesX)["Ox"]
+        rangeOY = self.specifyRange(rangesY=rangesY)["Oy"]
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = self.__applyRecipe(xOfPoints)
         if drawInMultiPlots:
@@ -101,7 +101,7 @@ class Parabol:
         else:
             self.__drawOX(rangeOfValue=rangeOX)
             self.__drawOY(rangeOfValue=rangeOY)
-            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.plot(xOfPoints, yOfPoints, color=self.color)
             self.axes.axis("equal")
             # mark every points
             for point in self.specialPoints.items():

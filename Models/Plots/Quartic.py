@@ -121,7 +121,7 @@ class Quartic:
         # print(numList)
         return (sortedList[0], sortedList[-1])
 
-    def __specifyRange(self, rangesX=None, rangesY=None) -> dict:
+    def specifyRange(self, rangesX=None, rangesY=None) -> dict:
         arrayYOfPoints = []
         arrayXOfPoints = []
         for point in self.specialPoints.values():
@@ -149,9 +149,9 @@ class Quartic:
         return np.array(returnArray, dtype=float)
         pass
 
-    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots = False, color = None):
-        rangeOX = self.__specifyRange(rangesX)["Ox"] 
-        rangeOY = self.__specifyRange(rangesY)["Oy"] 
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots = False):
+        rangeOX = self.specifyRange(rangesX)["Ox"] 
+        rangeOY = self.specifyRange(rangesY)["Oy"] 
         
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = self.__applyRecipe(xOfPoints)
@@ -162,7 +162,7 @@ class Quartic:
             self.__drawOX(rangeOfValue=rangeOX)
             self.__drawOY(rangeOfValue=rangeOY)
 
-            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.plot(xOfPoints, yOfPoints, color=self.color)
             self.axes.axis("equal")
 
             # mark every points

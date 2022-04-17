@@ -12,7 +12,7 @@ from Models.Plots.Parabol import Parabol
 
 class Cubic:
     
-    def __init__(self, paramNums: list[float], selfPlot = True, color = None) -> None:
+    def __init__(self, paramNums: list[float], selfPlot = True, color = "blue") -> None:
         self.sample = "y = {}x^3 + {}x^2 + {}x+ {}".format(paramNums[0], paramNums[1], paramNums[2], paramNums[3])
         self.paramNumbers = {"a": paramNums[0], "b": paramNums[1], "c": paramNums[2], "d": paramNums[3]}
         self.axes : plt.Axes
@@ -110,7 +110,7 @@ class Cubic:
         # print(numList)
         return (sortedList[0], sortedList[-1])
 
-    def __specifyRange(self, rangesX=None, rangesY=None) -> dict:
+    def specifyRange(self, rangesX=None, rangesY=None) -> dict:
         arrayYOfPoints = []
         arrayXOfPoints = []
         for point in self.specialPoints.values():
@@ -137,9 +137,9 @@ class Cubic:
         return np.array(returnArray, dtype=float)
         pass
 
-    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False, color=None):
-        rangeOX = self.__specifyRange(rangesX)["Ox"] 
-        rangeOY = self.__specifyRange(rangesY)["Oy"]
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False):
+        rangeOX = self.specifyRange(rangesX)["Ox"] 
+        rangeOY = self.specifyRange(rangesY)["Oy"]
 
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = self.__applyRecipe(xOfPoints)
@@ -149,7 +149,7 @@ class Cubic:
         else:
             self.__drawOX(rangeOfValue=rangeOX)
             self.__drawOY(rangeOfValue=rangeOY)
-            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.plot(xOfPoints, yOfPoints, color=self.color)
             self.axes.axis("equal")
             # mark every points
             for point in self.specialPoints.items():
