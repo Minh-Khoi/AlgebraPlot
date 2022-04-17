@@ -1,17 +1,16 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import random
+from fractions import Fraction
 import os
 import sys
 sys.path.append(os.getcwd())
 from Models.Helpers.PlotNote import PlotNote
-from fractions import Fraction
 
 
 
 class Parabol:
-    def __init__(self, paramNums : list[float], selfPlot = True) -> None:
+    def __init__(self, paramNums : list[float], selfPlot = True, color=None) -> None:
         self.sample = "y= {}x^2 + {}x + {}".format(paramNums[0], paramNums[1], paramNums[2])
         self.paramNumbers = {"a":paramNums[0], "b":paramNums[1], "c":paramNums[2]}
         self.axes : plt.Axes = None
@@ -22,6 +21,8 @@ class Parabol:
         self.specialNumbers = {}
         self.specialPoints = {}
         self.__defineSpecialness()
+        self.x_yOfPoints= {"x": [], "y": []}
+        self.color = color
         pass
         
     def __defineSpecialness(self)-> dict:
@@ -89,34 +90,29 @@ class Parabol:
         self.axes.plot(xOfPoints, yOfPoints, color='red')
         pass
 
-    def drawPlot(self, rangesX=None, rangesY=None, activeAxes: plt.Axes = None, activeNote: plt.Axes = None):
-        a = self.paramNumbers["a"]
-        b = self.paramNumbers["b"]
-        c = self.paramNumbers["c"]
-
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False, color=None):
         rangeOX = self.__specifyRange(rangesX=rangesX)["Ox"]
         rangeOY = self.__specifyRange(rangesY=rangesY)["Oy"]
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = self.__applyRecipe(xOfPoints)
-        self.__drawOX(rangeOfValue=rangeOX)
-        self.__drawOY(rangeOfValue=rangeOY)
-        if (activeAxes is None):
-            self.axes.plot(xOfPoints, yOfPoints)
-            self.axes.axis("equal")
+        if drawInMultiPlots:
+            self.x_yOfPoints["x"] = xOfPoints
+            self.x_yOfPoints["y"] = yOfPoints
         else:
-            activeAxes.plot(xOfPoints, yOfPoints)
-            activeAxes.axis("equal")
-        # mark every points
-        for point in self.specialPoints.items():
-            name = point[0]
-            coord = point[1]
-            self.axes.text(coord[0], coord[1], name)
-        if (activeNote is None):
+            self.__drawOX(rangeOfValue=rangeOX)
+            self.__drawOY(rangeOfValue=rangeOY)
+            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.axis("equal")
+            # mark every points
+            for point in self.specialPoints.items():
+                name = point[0]
+                coord = point[1]
+                self.axes.text(coord[0], coord[1], name)
             note = PlotNote(axes=self.axesForNote, specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
-        plt.tight_layout()
-        plt.show()
+            plt.tight_layout()
+            plt.show()
 
 
-# parab = Parabol([-0.4,1,2])
+# parab = Parabol([-1.4,5,2])
 # print(parab.specialPoints)
-# parab.drawPlot(rangesY=[-10,10],rangesX=[-3,6])
+# parab.generatePlot(rangesY=[-10,10],rangesX=[-3,6])

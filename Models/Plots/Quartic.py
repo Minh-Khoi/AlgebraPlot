@@ -12,7 +12,7 @@ from Models.Plots.Parabol import Parabol
 
 
 class Quartic:
-    def __init__(self, paramNums: list[float], selfPlot = True) -> None:
+    def __init__(self, paramNums: list[float], selfPlot = True, color=None) -> None:
         self.paramNumbers = {"a": paramNums[0] , "b": paramNums[1], "c": paramNums[2], "d": paramNums[3], "e": paramNums[4]}
         self.sample = "y= {} * x^4 + {} * x^3 + {} * x^2 + {} * x + {}".format(paramNums[0], paramNums[1], 
                                                                                             paramNums[2], paramNums[3], paramNums[4])
@@ -24,6 +24,8 @@ class Quartic:
         self.specialNumbers = {}
         self.specialPoints = {}
         self.__defineSpecialness()
+        self.x_yOfPoints : dict = {"x": [], "y": []}
+        self.color = color
         pass
 
          
@@ -147,40 +149,31 @@ class Quartic:
         return np.array(returnArray, dtype=float)
         pass
 
-    def drawPlot(self, rangesX=None, rangesY=None, activeAxes: plt.Axes = None, activeNote: plt.Axes = None):
-        a = self.paramNumbers["a"]
-        b = self.paramNumbers["b"]
-        c = self.paramNumbers["c"]
-        d = self.paramNumbers["d"]
-        e = self.paramNumbers["e"]
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots = False, color = None):
         rangeOX = self.__specifyRange(rangesX)["Ox"] 
         rangeOY = self.__specifyRange(rangesY)["Oy"] 
-        distanceOfText = {
-            "horizontal": 0.-(rangeOX[1] - rangeOX[0])/20, "vertical": -(rangeOY[1] - rangeOY[0])/20}
+        
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = self.__applyRecipe(xOfPoints)
-        self.__drawOX(rangeOfValue=rangeOX)
-        self.__drawOY(rangeOfValue=rangeOY)
-        if (activeAxes is None):
-            self.axes.plot(xOfPoints, yOfPoints)
-            self.axes.axis("equal")
-        else:
-            activeAxes.plot(xOfPoints, yOfPoints)
-            activeAxes.axis("equal")
-        distanceOfText = {
-            "horizontal": -(rangeOX[1] - rangeOX[0])/20,
-            "vertical": -(rangeOY[1] - rangeOY[0])/20
-        }
-        # mark every points
-        for point in self.specialPoints.items():
-            name = point[0]
-            coord = point[1]
-            self.axes.text(coord[0] , coord[1] , name )
-        if (activeNote is None):
-            note = PlotNote(axes=self.noteAxes , specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
+        if (drawInMultiPlots):
+            self.x_yOfPoints["x"] = xOfPoints
+            self.x_yOfPoints["y"] = yOfPoints
+        else : 
+            self.__drawOX(rangeOfValue=rangeOX)
+            self.__drawOY(rangeOfValue=rangeOY)
 
-        plt.tight_layout()
-        plt.show()
+            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.axis("equal")
+
+            # mark every points
+            for point in self.specialPoints.items():
+                name = point[0]
+                coord = point[1]
+                self.axes.text(coord[0], coord[1], name)
+            note = PlotNote(axes=self.noteAxes, specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
+
+            plt.tight_layout()
+            plt.show()
 
     def check(self, coord: tuple[int]) -> bool:
         a = self.paramNumbers["a"]
@@ -196,6 +189,6 @@ class Quartic:
         return y == yChecking
 
 
-quart = Quartic(paramNums=[-1,3,1.6,4,-1])
-# print(quart.specialPoints)
-quart.drawPlot(rangesX=[-5,5])
+# quart = Quartic(paramNums=[-1,0,3,0,1])
+# # print(quart.specialPoints)
+# quart.generatePlot(rangesX=[-5,5])

@@ -10,7 +10,7 @@ from Models.Helpers.PlotNote import PlotNote
 
 class Line:
 
-    def __init__(self, paramNums: list[int], selfPlot = True) -> None:
+    def __init__(self, paramNums: list[int], selfPlot = True, color = None) -> None:
         self.sample = "y = {a}x + {b}".format(a=paramNums[0], b=paramNums[1])
         self.paramNumbers = {"a" : paramNums[0] , "b" : paramNums[1]}
         self.axes : plt.Axes
@@ -19,10 +19,12 @@ class Line:
         if (selfPlot is False):
             plt.close(self.fig)
         self.specialNumbers = {}
-        self.specialPoints = ({"O": (0,0)}) 
+        self.specialPoints = {"O": (0,0)}
+        self.x_yOfPoints = {"x": [], "y": []}
         if (paramNums[0] != 0 and paramNums[1] !=0)  :
             self.specialPoints["A"] = (0, paramNums[1])
             self.specialPoints["B"] = (-paramNums[1] / paramNums[0], 0)
+        self.color = color
         pass
     
     def __drawOX(self, rangeOfValue : tuple[int]):
@@ -64,7 +66,7 @@ class Line:
             returnedList["Oy"] = rangesY
         return returnedList
 
-    def drawPlot(self, rangesX = None, rangesY = None, activeAxes : plt.Axes  = None, activeNote: plt.Axes=None):
+    def generatePlot(self, rangesX=None, rangesY=None, drawInMultiPlots=False, color=None):
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
         rangeOX = self.__specifyRange(rangesX=rangesX)["Ox"]
@@ -72,25 +74,25 @@ class Line:
 
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
         yOfPoints = a*xOfPoints + b
-        self.__drawOX(rangeOX)
-        self.__drawOY(rangeOY)
-
-        self.axes.text(0, 0, "O")
-        self.axes.text(0, b,  "A")
-        self.axes.text(- b/a ,0, "B")
-        if (activeAxes is None):
-            self.axes.plot(xOfPoints, yOfPoints)
-            self.axes.axis("equal")
+        if drawInMultiPlots:
+            self.x_yOfPoints["x"] = xOfPoints
+            self.x_yOfPoints["y"] = yOfPoints
         else:
-            activeAxes.plot(xOfPoints, yOfPoints)
-            activeAxes.axis("equal")
-        if (activeNote is None):
+            self.__drawOX(rangeOX)
+            self.__drawOY(rangeOY)
+            
+            self.axes.text(0, 0, "O")
+            self.axes.text(0, b,  "A")
+            self.axes.text(- b/a ,0, "B")
+            self.axes.plot(xOfPoints, yOfPoints, color=color)
+            self.axes.axis("equal")
+        
             note = PlotNote(axes=self.noteAxes ,specialNumbers=self.specialNumbers, specialPoints=self.specialPoints)
 
-        plt.tight_layout()
-        plt.show()
+            plt.tight_layout()
+            plt.show()
         pass
 
 
 # line = Line([1/2, -3])
-# line.drawPlot(rangesX=[-4, 10])
+# line.generatePlot(rangesX=[-4, 10], color="orange")
