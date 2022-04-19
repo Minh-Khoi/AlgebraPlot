@@ -10,7 +10,7 @@ from Models.Plots.Cubic import Cubic
 from Models.Plots.Parabol import Parabol
 from Models.Plots.Line import Line
 from Models.Plots.Quartic import Quartic
-from Models.Helpers.MultiNotes import MultiNotes
+from Models.MultiPlots.MultiNotes import MultiNotes
 
 class Painter:
     def __init__(self, plotsList: list) -> None:

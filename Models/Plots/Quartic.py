@@ -189,6 +189,6 @@ class Quartic:
         return y == yChecking
 
 
-# quart = Quartic(paramNums=[-1,0,3,0,1])
+# quart = Quartic(paramNums=[-1, -1, 3, 3, 0])
 # # print(quart.specialPoints)
 # quart.generatePlot(rangesX=[-5,5])
