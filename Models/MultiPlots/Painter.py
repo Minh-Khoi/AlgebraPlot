@@ -11,16 +11,17 @@ from Models.Plots.Parabol import Parabol
 from Models.Plots.Line import Line
 from Models.Plots.Quartic import Quartic
 from Models.MultiPlots.MultiNotes import MultiNotes
+from Models.MultiPlots.EquationSolver import EquationSolver 
 
 class Painter:
     def __init__(self, plotsList: list) -> None:
-        if len(plotsList) > 3:
-            print("too many plots. Please choose maximum 3")
+        if len(plotsList) > 3 or len(plotsList) ==1:
+            print("Number of plots must be 2 or 3")
             return
         self.plotsList = plotsList
         self.axes : plt.Axes = None
         self.noteAxes: plt.Axes = None
-        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [3, 1]})
+        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [1, 1]})
         self.listOfColors = [ "black", "green", "blue", "orange", "yellow", "grey", "pink", "purple"]
         pass
 
@@ -39,15 +40,17 @@ class Painter:
     def __drawOX(self, rangeOfValue: list[float]):
         xOfPoints = np.arange(rangeOfValue[0], rangeOfValue[1], 0.01)
         yOfPoints = np.zeros(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
     def __drawOY(self, rangeOfValue: list[float]):
         yOfPoints = np.arange(int(rangeOfValue[0]), int(rangeOfValue[1]), 0.01)
         xOfPoints = np.zeros(len(yOfPoints))
         # print(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
+
+    
 
     def specifyRange(self, plotsList: list,rangeX = None, rangeY=None) -> dict:
         rangeOnX = [-0.1,0.1]
@@ -96,13 +99,40 @@ class Painter:
                     name = point[0]
                     coord = point[1]
                     self.axes.text(coord[0], coord[1], name, color=color)
+        self.__markCrossPoints()
         self.axes.axis("equal")
         
         plt.tight_layout()
         plt.show()
 
-                
-        
+    def __markCrossPoints(self):
+        if len(self.plotsList) == 2:
+            listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
+            for point in listOfCrossPoints.items:
+                name = point[0]
+                coord = point[1]
+                self.axes.text(coord[0], coord[1], name , color="#036954")
+        elif len(self.plotsList) == 3:
+            i= 0
+            j = 1
+            while 1 + i < len(self.plotsList):
+                # print("loop at i={}, j={}".format(i,j) )
+                if i+j == len(self.plotsList):
+                    i += 1
+                    j = 1
+                else :
+                    listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
+                    # print(self.plotsList[i].sample)
+                    # print(self.plotsList[i+j].sample)
+                    # print("---------")
+                    for point in listOfCrossPoints.items():
+                        # print(point)
+                        name = point[0]
+                        coord = point[1]
+                        self.axes.text(coord[0], coord[1], name, color="#036954")
+                    j+=1
+            
+        pass
 
 cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="yellow")
 quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="black")

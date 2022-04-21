@@ -95,14 +95,14 @@ class Cubic:
     def __drawOX(self, rangeOfValue : tuple[int]):
         xOfPoints = np.arange(rangeOfValue[0], rangeOfValue[1], 0.01)
         yOfPoints = np.zeros(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
     def __drawOY(self, rangeOfValue: tuple[int]):
         yOfPoints = np.arange(int(rangeOfValue[0]), int(rangeOfValue[1]) , 0.01)
         xOfPoints = np.zeros(len(yOfPoints))
         # print(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
     def __findMinMaxInList(self, numList : tuple[int]) -> tuple[int]:
@@ -126,7 +126,7 @@ class Cubic:
             returnedList["Oy"] = rangesY
         return returnedList
 
-    def __applyRecipe(self, arrayOfX: np.ndarray) -> np.ndarray:
+    def applyRecipe(self, arrayOfX: np.ndarray) -> np.ndarray:
         returnArray = []
         a = self.paramNumbers["a"]
         b = self.paramNumbers["b"]
@@ -142,7 +142,7 @@ class Cubic:
         rangeOY = self.specifyRange(rangesY)["Oy"]
 
         xOfPoints = np.arange(rangeOX[0], rangeOX[1], 0.01)
-        yOfPoints = self.__applyRecipe(xOfPoints)
+        yOfPoints = self.applyRecipe(xOfPoints)
         if (drawInMultiPlots):
             self.x_yOfPoints["x"] = xOfPoints
             self.x_yOfPoints["y"] = yOfPoints

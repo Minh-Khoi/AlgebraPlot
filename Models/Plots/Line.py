@@ -30,20 +30,30 @@ class Line:
     def __drawOX(self, rangeOfValue : tuple[int]):
         xOfPoints = np.arange(rangeOfValue[0], rangeOfValue[1], 0.01)
         yOfPoints = np.zeros(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
     def __drawOY(self, rangeOfValue: tuple[int]):
         yOfPoints = np.arange(int(rangeOfValue[0]), int(rangeOfValue[1]) , 0.01)
         xOfPoints = np.zeros(len(yOfPoints))
         # print(len(xOfPoints))
-        self.axes.plot(xOfPoints, yOfPoints, color='red')
+        self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
     def __findMinMaxInList(self, numList : tuple[int]) -> tuple[int]:
         sortedList = sorted(numList)
         # print(sortedList)
         return (sortedList[0], sortedList[-1])
+
+    
+    def applyRecipe(self, arrayOfX: np.ndarray) -> np.ndarray:
+        returnArray = []
+        a = self.paramNumbers["a"]
+        b = self.paramNumbers["b"]
+        for x in arrayOfX:
+            returnArray.append(a * x + b)
+        return np.array(returnArray, dtype=float)
+        pass
 
     def specifyRange(self, rangesX = None, rangesY = None) -> dict:
         arrayYOfPoints = []

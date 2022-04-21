@@ -37,24 +37,26 @@ class EquationSolver:
 
     def __createPseudoPlot(self, priorPlot, minorPlot):
         if (isinstance(priorPlot, (Cubic, Line, Parabol, Quartic)) and isinstance(minorPlot, (Cubic, Line, Parabol, Quartic))):
+            print(priorPlot.sample)
+            print(minorPlot.sample)
             paramNumsOfPseudoPlot = []
             for (key, items) in priorPlot.paramNumbers.items():
                 minorPlotParamsRefomatted = self.__refomatListKeys(self.minorPlot.paramNumbers)
                 # print(minorPlotParamsRefomatted)
                 if key in minorPlotParamsRefomatted:
-                    paramNumsOfPseudoPlot.append(priorPlot.paramNumbers[key] + minorPlotParamsRefomatted[key])
+                    paramNumsOfPseudoPlot.append(priorPlot.paramNumbers[key] - minorPlotParamsRefomatted[key])
                 else:
                     paramNumsOfPseudoPlot.append(priorPlot.paramNumbers[key] )
                 # print(key)
-                # print(paramNumsOfPseudoPlot)
+            print(paramNumsOfPseudoPlot)
             if len(paramNumsOfPseudoPlot) == 2:
-                returnedPlot = Line(paramNumsOfPseudoPlot)
+                returnedPlot = Line(paramNumsOfPseudoPlot, selfPlot=False)
             if len(paramNumsOfPseudoPlot) == 3:
-                returnedPlot = Parabol(paramNumsOfPseudoPlot)
+                returnedPlot = Parabol(paramNumsOfPseudoPlot, selfPlot=False)
             if len(paramNumsOfPseudoPlot) == 4:
-                returnedPlot = Cubic(paramNumsOfPseudoPlot)
+                returnedPlot = Cubic(paramNumsOfPseudoPlot, selfPlot=False)
             if len(paramNumsOfPseudoPlot) == 5:
-                returnedPlot = Quartic(paramNumsOfPseudoPlot)
+                returnedPlot = Quartic(paramNumsOfPseudoPlot, selfPlot=False)
             return returnedPlot
         pass
 
@@ -67,7 +69,9 @@ class EquationSolver:
                 coord = points[1]
                 if ("B" in name):
                     countS += 1
-                    pseudoSpecialPoints["S" + str(countS)] = coord
+                    x = coord[0]
+                    y = self.minorPlot.applyRecipe([coord[0]])[0]
+                    pseudoSpecialPoints["S" + str(countS)] = (x,y) 
             return pseudoSpecialPoints
         pass
 
