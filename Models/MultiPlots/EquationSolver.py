@@ -37,8 +37,8 @@ class EquationSolver:
 
     def __createPseudoPlot(self, priorPlot, minorPlot):
         if (isinstance(priorPlot, (Cubic, Line, Parabol, Quartic)) and isinstance(minorPlot, (Cubic, Line, Parabol, Quartic))):
-            print(priorPlot.sample)
-            print(minorPlot.sample)
+            # print(priorPlot.sample)
+            # print(minorPlot.sample)
             paramNumsOfPseudoPlot = []
             for (key, items) in priorPlot.paramNumbers.items():
                 minorPlotParamsRefomatted = self.__refomatListKeys(self.minorPlot.paramNumbers)
@@ -48,7 +48,7 @@ class EquationSolver:
                 else:
                     paramNumsOfPseudoPlot.append(priorPlot.paramNumbers[key] )
                 # print(key)
-            print(paramNumsOfPseudoPlot)
+            # print(paramNumsOfPseudoPlot)
             if len(paramNumsOfPseudoPlot) == 2:
                 returnedPlot = Line(paramNumsOfPseudoPlot, selfPlot=False)
             if len(paramNumsOfPseudoPlot) == 3:

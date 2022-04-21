@@ -131,10 +131,10 @@ class Painter:
                         coord = point[1]
                         self.axes.text(coord[0], coord[1], name, color="#036954")
                     j+=1
-            
+            MultiNotes().initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 
-cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="yellow")
+cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="green")
 quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="black")
 line = Line(paramNums=[1,-2], selfPlot=False, color="blue")
 listOfPlot = [cubic,quartic, line]

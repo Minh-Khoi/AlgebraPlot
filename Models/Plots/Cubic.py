@@ -101,7 +101,7 @@ class Cubic:
     def __drawOY(self, rangeOfValue: tuple[int]):
         yOfPoints = np.arange(int(rangeOfValue[0]), int(rangeOfValue[1]) , 0.01)
         xOfPoints = np.zeros(len(yOfPoints))
-        # print(len(xOfPoints))
+        # print(len(xOfPoints)á
         self.axes.plot(xOfPoints, yOfPoints, color='#F60673')
         pass
 
