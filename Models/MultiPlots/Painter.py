@@ -21,10 +21,16 @@ class Painter:
         self.plotsList = plotsList
         self.axes : plt.Axes = None
         self.noteAxes: plt.Axes = None
-        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, gridspec_kw={'width_ratios': [1, 1]})
+        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, figsize=(15,6), gridspec_kw={'width_ratios': [1, 1]})
         self.listOfColors = [ "black", "green", "blue", "orange", "yellow", "grey", "pink", "purple"]
         pass
 
+    def __formatNumberShowed(self, number: float):
+        fraction = Fraction(number)
+        if (fraction.numerator > 10000 or fraction.denominator > 10000):
+            return float("{:.4f}".format(number))
+        return fraction
+        pass
 
     def __chooseColor(self):
         numColor = random.randint(0, len(self.listOfColors) - 1)
@@ -106,32 +112,37 @@ class Painter:
         plt.show()
 
     def __markCrossPoints(self):
+        crossNote = ""
         if len(self.plotsList) == 2:
             listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
-            for point in listOfCrossPoints.items:
+            crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[0].sample, self.plotsList[1].sample)
+            # print(crossNote)
+            for point in listOfCrossPoints.items():
                 name = point[0]
-                coord = point[1]
-                self.axes.text(coord[0], coord[1], name , color="#036954")
+                x = self.__formatNumberShowed(point[1][0])
+                y = self.__formatNumberShowed(point[1][1])
+                self.axes.text(point[1][0], point[1][1], name , color="#036954")
+                crossNote += "        {} : ({}, {}) \n".format(name, x, y)
         elif len(self.plotsList) == 3:
             i= 0
             j = 1
             while 1 + i < len(self.plotsList):
-                # print("loop at i={}, j={}".format(i,j) )
                 if i+j == len(self.plotsList):
                     i += 1
                     j = 1
                 else :
+                    crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[i].sample, self.plotsList[i+j].sample)
                     listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
-                    # print(self.plotsList[i].sample)
-                    # print(self.plotsList[i+j].sample)
-                    # print("---------")
                     for point in listOfCrossPoints.items():
-                        # print(point)
                         name = point[0]
                         coord = point[1]
-                        self.axes.text(coord[0], coord[1], name, color="#036954")
+                        self.axes.text(coord[0], coord[1], name, color="#9806F6")
+                        x = self.__formatNumberShowed(point[1][0])
+                        y = self.__formatNumberShowed(point[1][1])
+                        crossNote += "        {} : ({}, {}) \n".format(name, x, y)
                     j+=1
-            MultiNotes().initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
+                    crossNote +=";"
+            MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 
 cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="green")

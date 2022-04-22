@@ -20,7 +20,11 @@ class MultiNotes:
 
     def __init__(self, moreNotes: str = None) -> None:
         if moreNotes is not None:
-            self.moreNotesArray = moreNotes.split(";")
+            self.moreNotes = moreNotes 
+            self.lenOfCrossNotes = len(moreNotes.split(";"))
+        # print(moreNotes)
+        self.colorList = []
+        self.showedStringArray = []
         pass
 
     def rainbow_text(self,x, y, strings, colors, orientation='horizontal', ax: plt.Axes=None, **kwargs):
@@ -46,25 +50,38 @@ class MultiNotes:
         if orientation == 'vertical':
             kwargs.update(rotation=90, verticalalignment='bottom')
         for s, c in zip(strings, colors):
-            countLines = (s.count("\n")) 
+            countLines = s.count("\n") 
             text = ax.text(x, y, s + " ", color=c, **kwargs)
             y += countLines * 0.04
 
     def initMultiNotes(self, axesNotes: plt.Axes = None, plotInstances : list = [] )-> str:
         showedStringTotal =""
-        colorsList = []
+        self.colorList = []
+        ct =0
         for plot in plotInstances:
+            ct += 1
             showedString = ""
-            if (isinstance(plot, (Line,Parabol,Cubic, Quartic))):
-                showedString += plot.sample + ":\n"
+            if (isinstance(plot, (Line, Parabol, Cubic, Quartic))):
+                showedString += "    " +plot.sample + ":\n"
                 for point in plot.specialPoints.items():
                     name = point[0]
                     xVl = self.__formatNumberShowed(point[1][0])
                     yVl = self.__formatNumberShowed(point[1][1])
-                    showedString += "    {}: ({}, {}) \n".format(name, xVl,yVl)
+                    showedString += "        {}: ({}, {}) \n".format(name, xVl,yVl)
             showedStringTotal += showedString + ";"
-            colorsList.append(plot.color)
+            self.colorList.append(plot.color)
+        showedStringTotal +=  self.moreNotes 
+        for i in range(self.lenOfCrossNotes):
+            self.colorList.append("#9806F6")
         # print(showedStringTotal)
         axesNotes.axis("off")
-        self.rainbow_text(x=0, y=0, strings=showedStringTotal.split(";"), colors=colorsList, ax=axesNotes)
+        self.showedStringArray = showedStringTotal.split(";")
+        self.__addTitleNotes(len(plotInstances))
+        self.rainbow_text(x=0, y=0, strings=self.showedStringArray, colors=self.colorList, ax=axesNotes)
         pass
+
+    def __addTitleNotes(self, lenOfPlots : int):
+        self.showedStringArray.append( "Cross points:")
+        self.colorList.append("#E03A0E")
+        self.showedStringArray.insert(lenOfPlots, "Plots special points:")
+        self.colorList.insert(lenOfPlots,"#E03A0E")
