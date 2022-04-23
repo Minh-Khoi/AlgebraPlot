@@ -79,7 +79,7 @@ class Painter:
 
 
     def drawPlots(self, rangeX = None, rangeY=None):
-        rangeOXY = self.specifyRange(self.plotsList)
+        rangeOXY = self.specifyRange(self.plotsList, rangeX=rangeX, rangeY= rangeY)
         # print(rangeOXY)
         rangeOX = rangeOXY["rangeOnX"]
         rangeOY = rangeOXY["rangeOnY"]
@@ -145,13 +145,13 @@ class Painter:
             MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 
-cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="green")
-quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="black")
-line = Line(paramNums=[1,-2], selfPlot=False, color="blue")
-listOfPlot = [cubic,quartic, line]
-# for plot in listOfPlot:
-#     print(plot.sample)
-#     print(plot.specialPoints)
+# cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="green")
+# quartic = Quartic(paramNums=[-4, 1, 2, 0,-1], selfPlot=False, color="black")
+# line = Line(paramNums=[1,-2], selfPlot=False, color="blue")
+# listOfPlot = [cubic,quartic, line]
+# # for plot in listOfPlot:
+# #     print(plot.sample)
+# #     print(plot.specialPoints)
 
-painter = Painter(plotsList=listOfPlot)
-painter.drawPlots()
+# painter = Painter(plotsList=listOfPlot)
+# painter.drawPlots()
