@@ -19,7 +19,7 @@ class MultiNotes:
         pass
 
     def __init__(self, moreNotes: str = None) -> None:
-        if moreNotes is not None:
+        if moreNotes is not None and len(moreNotes) > 0:
             self.moreNotes = moreNotes 
             self.lenOfCrossNotes = len(moreNotes.split(";"))
         # print(moreNotes)
@@ -58,6 +58,7 @@ class MultiNotes:
         showedStringTotal =""
         self.colorList = []
         ct =0
+        print("what happens??")
         for plot in plotInstances:
             ct += 1
             showedString = ""

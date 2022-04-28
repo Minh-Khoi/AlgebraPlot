@@ -142,7 +142,7 @@ class Painter:
                         crossNote += "        {} : ({}, {}) \n".format(name, x, y)
                     j+=1
                     crossNote +=";"
-            MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
+        MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 
 # cubic = Cubic(paramNums=[4, 2, 1, -1], selfPlot=False,  color="green")
