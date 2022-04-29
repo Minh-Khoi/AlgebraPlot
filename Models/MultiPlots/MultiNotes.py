@@ -58,7 +58,7 @@ class MultiNotes:
         showedStringTotal =""
         self.colorList = []
         ct =0
-        print("what happens??")
+        # print("what happens??")
         for plot in plotInstances:
             ct += 1
             showedString = ""

@@ -33,8 +33,6 @@ class EquationSolver:
         # print(reformattedList)
         return reformattedList
 
-
-
     def __createPseudoPlot(self, priorPlot, minorPlot):
         if (isinstance(priorPlot, (Cubic, Line, Parabol, Quartic)) and isinstance(minorPlot, (Cubic, Line, Parabol, Quartic))):
             # print(priorPlot.sample)

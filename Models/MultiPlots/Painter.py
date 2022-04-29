@@ -19,6 +19,7 @@ class Painter:
             print("Number of plots must be 2 or 3")
             return
         self.plotsList = plotsList
+        self.listOfCrossPoints = []
         self.axes : plt.Axes = None
         self.noteAxes: plt.Axes = None
         self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, figsize=(15,6), gridspec_kw={'width_ratios': [1, 1]})
@@ -86,26 +87,35 @@ class Painter:
         self.__drawOX(rangeOfValue=rangeOX)
         self.__drawOY(rangeOfValue=rangeOY)
         for plot in self.plotsList:
-            if (isinstance(plot, (Line, Parabol,Cubic, Quartic))):
-                plot.generatePlot(drawInMultiPlots=True, rangesX=rangeOX, rangesY=rangeOY)
-                xOfPoints = plot.x_yOfPoints["x"]
-                yOfPoints = plot.x_yOfPoints["y"]
-                if (plot.color is not None):
-                    color = plot.color
-                    if color in self.listOfColors:
-                        indexOfChoosenColor = self.listOfColors.index(color)
-                        del self.listOfColors[indexOfChoosenColor]
-                else:
-                    color = self.__chooseColor()
-                    pass
-                self.axes.plot(xOfPoints,yOfPoints,color=color)
-
+            if (isinstance(plot, (Line, Parabol, Cubic, Quartic))):
+                self.__markCrossPoints()
+                color = plot.color
+                
                 # mark the point on plot
                 for point in plot.specialPoints.items():
                     name = point[0]
                     coord = point[1]
                     self.axes.text(coord[0], coord[1], name, color=color)
-        self.__markCrossPoints()
+                    
+                # mark the cross points and adjust the range of figure concurrently
+                for crossPoint in self.listOfCrossPoints.items():
+                    name = crossPoint[0]
+                    coord = crossPoint[1]
+                    self.axes.text(coord[0], coord[1], name, color="#9806F6")
+                    if (coord[0] > rangeOX[1]):
+                        rangeOX[1] = coord[0]
+                    if (coord[0] < rangeOX[0]):
+                        rangeOX[0] = coord[0]
+                    if (coord[1] < rangeOY[0]):
+                        rangeOY[0] = coord[1]
+                    if (coord[1] > rangeOY[1]):
+                        rangeOY[1] = coord[1]
+
+                plot.generatePlot(drawInMultiPlots=True, rangesX=rangeOX, rangesY=rangeOY)
+                xOfPoints = plot.x_yOfPoints["x"]
+                yOfPoints = plot.x_yOfPoints["y"]
+                self.axes.plot(xOfPoints,yOfPoints,color=color)
+
         self.axes.axis("equal")
         
         plt.tight_layout()
@@ -114,14 +124,13 @@ class Painter:
     def __markCrossPoints(self):
         crossNote = ""
         if len(self.plotsList) == 2:
-            listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
+            self.listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
             crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[0].sample, self.plotsList[1].sample)
             # print(crossNote)
-            for point in listOfCrossPoints.items():
+            for point in self.listOfCrossPoints.items():
                 name = point[0]
                 x = self.__formatNumberShowed(point[1][0])
                 y = self.__formatNumberShowed(point[1][1])
-                self.axes.text(point[1][0], point[1][1], name , color="#036954")
                 crossNote += "        {} : ({}, {}) \n".format(name, x, y)
         elif len(self.plotsList) == 3:
             i= 0
@@ -132,11 +141,10 @@ class Painter:
                     j = 1
                 else :
                     crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[i].sample, self.plotsList[i+j].sample)
-                    listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
-                    for point in listOfCrossPoints.items():
+                    self.listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
+                    for point in self.listOfCrossPoints.items():
                         name = point[0]
                         coord = point[1]
-                        self.axes.text(coord[0], coord[1], name, color="#9806F6")
                         x = self.__formatNumberShowed(point[1][0])
                         y = self.__formatNumberShowed(point[1][1])
                         crossNote += "        {} : ({}, {}) \n".format(name, x, y)
