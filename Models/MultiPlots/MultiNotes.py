@@ -52,7 +52,7 @@ class MultiNotes:
         for s, c in zip(strings, colors):
             countLines = s.count("\n") 
             text = ax.text(x, y, s + " ", color=c, **kwargs)
-            y += countLines * 0.04
+            y += countLines * 0.05
 
     def initMultiNotes(self, axesNotes: plt.Axes = None, plotInstances : list = [] )-> str:
         showedStringTotal =""

@@ -16,10 +16,10 @@ numOfPlotsOnFigure = input("Your require - Câu trả lời của bạn: ")
 
 try:
     if numOfPlotsOnFigure not in ["1","2","3"]:
-        print("OOPs!! You can only draw maximum 3 plot in a frame")
+        print("OOPs!! You can only draw maximum 3 plots in a frame")
     elif numOfPlotsOnFigure == '1':
         print("\nChoose the type of plot you want to draw: entry 1 for 'line', 2 for 'parabol', 3 for 'cubic', 4 for 'quartic'")
-        print("Chọn loại đồ thị hàm số: nhập '1' đối với hàm số bậc nhất, '2' cho hàm số bậc 2, '3' cho hàm số bậc 3, và '4' cho hàm số bậc 4 ")
+        print("Chọn loại đồ thị hàm số: nhập '1' đối với hàm số bậc nhất, '2' cho hàm số bậc 2, '3' cho hàm số bậc 3, và '4' cho hàm số bậc 4")
         codeTypeOfPlot = input("Your require - Câu trả lời của bạn: ")
 
         plotInfos = initPlotInfos(codeTypeOfPlot)
