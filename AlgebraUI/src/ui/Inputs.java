@@ -29,7 +29,7 @@ public class Inputs extends javax.swing.JDialog {
     public Inputs(java.awt.Frame parent, boolean modal, String param ) {
         super(parent, modal);
         initComponents();
-        this.parent = this.parent;
+        this.submitButton.setEnabled(false);
     }
 
     /**
@@ -468,7 +468,7 @@ public class Inputs extends javax.swing.JDialog {
                             (Math.abs(str.indexOf('/') - str.indexOf('-')) != 1 || numOfSlash==0 || numOfMinus==0);
 //                System.out.println(character);
 //                System.out.println( numOfSlash);
-                System.out.println(specialCharNotNextToEachOther);
+//                System.out.println(specialCharNotNextToEachOther);
                 if (!specialCharOccurLessThanTwo || !slashRightPosition || !minusRightPosition || !specialCharNotNextToEachOther){
 //                    System.out.println("----" + character + " -----------");
 //                    System.out.println(specialCharOccurLessThanTwo);
@@ -489,10 +489,16 @@ public class Inputs extends javax.swing.JDialog {
     private void validateKeyTyped(java.awt.event.FocusEvent evt){
         boolean isValid = true;
         Component[] componentsInParametersPanel = this.parametersPanel.getComponents();
+        boolean emptyFieldExist = false;
         for (Component comp : componentsInParametersPanel){
-            if (comp instanceof JTextField){
+            if (comp instanceof JTextField && comp.isShowing()){
                 JTextField compConverted = (JTextField) comp;
                 String txt = compConverted.getText();
+                if (txt.trim().length()==0){
+                    emptyFieldExist = true;
+                }
+                System.out.println(emptyFieldExist);
+                System.out.println(txt);
                 if (!this.allCharactersIsValid(txt)){
                     isValid = false;
                     break;
@@ -500,6 +506,7 @@ public class Inputs extends javax.swing.JDialog {
             }
         }
         this.errorLabel.setVisible(!isValid);
+        this.submitButton.setEnabled(isValid && !emptyFieldExist);
     }
         
     private void findColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findColorButtonActionPerformed
