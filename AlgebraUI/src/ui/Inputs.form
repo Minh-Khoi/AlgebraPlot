@@ -323,8 +323,8 @@
                   <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
-                  <Component id="errorLabel" min="-2" pref="477" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="232" max="-2" attributes="0"/>
+                  <Component id="errorLabel" min="-2" pref="566" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -355,9 +355,8 @@
                       </Group>
                       <Component id="getParamsLabel" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                  <Component id="errorLabel" min="-2" pref="15" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="errorLabel" min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -373,7 +372,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="aField">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="aFieldKeyTyped"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="aFieldFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="aLabel">
@@ -398,7 +397,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="dField">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dFieldKeyTyped"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dFieldFocusLost"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="dField.setVisible(false);"/>
@@ -414,7 +413,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="bField">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="bFieldKeyTyped"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bFieldFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="cLabel">
@@ -430,7 +429,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="cField">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cFieldKeyTyped"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cFieldFocusLost"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTextField()"/>
@@ -453,7 +452,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="eFieldKeyTyped"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="eFieldFocusLost"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="eField.setVisible(false);"/>
@@ -468,7 +467,7 @@
               <Color blue="0" green="0" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Please type number only"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body&gt;Please type number in the right numeric format &lt;br/&gt; H&#xe3;y nh&#x1ead;p &#x111;&#xfa;ng &#x111;&#x1ecb;nh d&#x1ea1;ng s&#x1ed1;&lt;/body&gt;&lt;/html&gt;"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="errorLabel.setVisible(false);"/>

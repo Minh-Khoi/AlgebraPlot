@@ -204,9 +204,9 @@ public class Inputs extends javax.swing.JDialog {
         getParamsLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         getParamsLabel.setText("<html><body>Get Parameters <br/>Chọn tham số </body></html>");
 
-        aField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                aFieldKeyTyped(evt);
+        aField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                aFieldFocusLost(evt);
             }
         });
 
@@ -219,18 +219,18 @@ public class Inputs extends javax.swing.JDialog {
         dLabel.setVisible(false);
 
         dField.setVisible(false);
-        dField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                dFieldKeyTyped(evt);
+        dField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dFieldFocusLost(evt);
             }
         });
 
         bLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         bLabel.setText("b");
 
-        bField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                bFieldKeyTyped(evt);
+        bField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                bFieldFocusLost(evt);
             }
         });
 
@@ -239,9 +239,9 @@ public class Inputs extends javax.swing.JDialog {
         cLabel.setVisible(false);
 
         cField.setVisible(false);
-        cField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                cFieldKeyTyped(evt);
+        cField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cFieldFocusLost(evt);
             }
         });
 
@@ -251,16 +251,16 @@ public class Inputs extends javax.swing.JDialog {
 
         eField.setToolTipText("");
         eField.setVisible(false);
-        eField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                eFieldKeyTyped(evt);
+        eField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                eFieldFocusLost(evt);
             }
         });
 
         errorLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        errorLabel.setText("Please type number only");
+        errorLabel.setText("<html><body>Please type number in the right numeric format <br/> Hãy nhập đúng định dạng số</body></html>");
         errorLabel.setVisible(false);
 
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
@@ -299,8 +299,8 @@ public class Inputs extends javax.swing.JDialog {
                         .addComponent(eLabel)))
                 .addGap(78, 78, 78))
             .addGroup(parametersPanelLayout.createSequentialGroup()
-                .addGap(321, 321, 321)
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(232, 232, 232)
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         parametersPanelLayout.setVerticalGroup(
@@ -324,9 +324,8 @@ public class Inputs extends javax.swing.JDialog {
                                 .addComponent(dLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(eField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)))
                     .addComponent(getParamsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         titlePanel.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
@@ -463,7 +462,19 @@ public class Inputs extends javax.swing.JDialog {
                 boolean specialCharOccurLessThanTwo = numOfDot < 2 && numOfMinus<2 && numOfSlash<2;
                 boolean slashRightPosition = (numOfSlash ==1 && str.indexOf('/') != 0) || numOfSlash==0;
                 boolean minusRightPosition = (numOfMinus ==1 && str.indexOf('-') == 0) || numOfMinus==0;
-                if (!specialCharOccurLessThanTwo || !slashRightPosition || !minusRightPosition){
+                boolean specialCharNotNextToEachOther = 
+                            (Math.abs(str.indexOf('/') - str.indexOf('.')) != 1 || numOfSlash==0 || numOfDot==0) &&
+                            (str.indexOf('-') - str.indexOf('.') != 1  || numOfMinus==0 || numOfDot==0) &&
+                            (Math.abs(str.indexOf('/') - str.indexOf('-')) != 1 || numOfSlash==0 || numOfMinus==0);
+//                System.out.println(character);
+//                System.out.println( numOfSlash);
+                System.out.println(specialCharNotNextToEachOther);
+                if (!specialCharOccurLessThanTwo || !slashRightPosition || !minusRightPosition || !specialCharNotNextToEachOther){
+//                    System.out.println("----" + character + " -----------");
+//                    System.out.println(specialCharOccurLessThanTwo);
+//                    System.out.println(slashRightPosition);
+//                    System.out.println(minusRightPosition);
+//                    System.out.println(specialCharNotNextToEachOther);
                     isValid = false;
                     break;
                 }
@@ -475,8 +486,7 @@ public class Inputs extends javax.swing.JDialog {
         return isValid;
     }
     
-    private void validateKeyTyped(java.awt.event.KeyEvent evt){
-        char character = evt.getKeyChar();
+    private void validateKeyTyped(java.awt.event.FocusEvent evt){
         boolean isValid = true;
         Component[] componentsInParametersPanel = this.parametersPanel.getComponents();
         for (Component comp : componentsInParametersPanel){
@@ -492,31 +502,6 @@ public class Inputs extends javax.swing.JDialog {
         this.errorLabel.setVisible(!isValid);
     }
         
-    private void aFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_aFieldKeyTyped
-        // TODO add your handling code here:
-        this.validateKeyTyped(evt);
-    }//GEN-LAST:event_aFieldKeyTyped
-
-    private void bFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bFieldKeyTyped
-        // TODO add your handling code here:
-        this.validateKeyTyped(evt);
-    }//GEN-LAST:event_bFieldKeyTyped
-
-    private void cFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cFieldKeyTyped
-        // TODO add your handling code here:
-        this.validateKeyTyped(evt);
-    }//GEN-LAST:event_cFieldKeyTyped
-
-    private void dFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dFieldKeyTyped
-        // TODO add your handling code here:
-        this.validateKeyTyped(evt);
-    }//GEN-LAST:event_dFieldKeyTyped
-
-    private void eFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eFieldKeyTyped
-        // TODO add your handling code here:
-        this.validateKeyTyped(evt);
-    }//GEN-LAST:event_eFieldKeyTyped
-
     private void findColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findColorButtonActionPerformed
         // TODO add your handling code here:
         ColorChooser pickColorDialog = new ColorChooser(this.parent, true);
@@ -533,6 +518,31 @@ public class Inputs extends javax.swing.JDialog {
             }
         });
     }//GEN-LAST:event_findColorButtonActionPerformed
+
+    private void aFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_aFieldFocusLost
+        // TODO add your handling code here:
+        this.validateKeyTyped(evt);
+    }//GEN-LAST:event_aFieldFocusLost
+
+    private void bFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bFieldFocusLost
+        // TODO add your handling code here:
+        this.validateKeyTyped(evt);
+    }//GEN-LAST:event_bFieldFocusLost
+
+    private void cFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cFieldFocusLost
+        // TODO add your handling code here:
+        this.validateKeyTyped(evt);
+    }//GEN-LAST:event_cFieldFocusLost
+
+    private void dFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dFieldFocusLost
+        // TODO add your handling code here:
+        this.validateKeyTyped(evt);
+    }//GEN-LAST:event_dFieldFocusLost
+
+    private void eFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_eFieldFocusLost
+        // TODO add your handling code here:
+        this.validateKeyTyped(evt);
+    }//GEN-LAST:event_eFieldFocusLost
 
     /**
      * @param args the command line arguments
