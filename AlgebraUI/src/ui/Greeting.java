@@ -27,34 +27,34 @@ public class Greeting extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        chooseNumOfPlotsLabel = new javax.swing.JLabel();
+        chooseNumOfPlotsLabelVNese = new javax.swing.JLabel();
+        numOfPlotsTxtField = new javax.swing.JTextField();
+        goButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel1.setText("<html><body>How may plots do you want <br/>to draw in a frame?</body></html>");
-        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jLabel1.setPreferredSize(new java.awt.Dimension(234, 15));
+        chooseNumOfPlotsLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        chooseNumOfPlotsLabel.setText("<html><body>How may plots do you want <br/>to draw in a frame?</body></html>");
+        chooseNumOfPlotsLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        chooseNumOfPlotsLabel.setPreferredSize(new java.awt.Dimension(234, 15));
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel2.setText("<html><body>Bạn muốn vẽ bao nhiêu đồ thị trong một khung hình</body></html>");
-        jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jLabel2.setPreferredSize(new java.awt.Dimension(234, 15));
+        chooseNumOfPlotsLabelVNese.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        chooseNumOfPlotsLabelVNese.setText("<html><body>Bạn muốn vẽ bao nhiêu đồ thị trong một khung hình</body></html>");
+        chooseNumOfPlotsLabelVNese.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        chooseNumOfPlotsLabelVNese.setPreferredSize(new java.awt.Dimension(234, 15));
 
-        jTextField1.setText("1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        numOfPlotsTxtField.setText("1");
+        numOfPlotsTxtField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                numOfPlotsTxtFieldActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Go");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        goButton.setText("Go");
+        goButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                goButtonActionPerformed(evt);
             }
         });
 
@@ -64,16 +64,16 @@ public class Greeting extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(goButton)
                 .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(194, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -82,33 +82,33 @@ public class Greeting extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(goButton))))
                 .addContainerGap(60, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(64, 64, 64)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(27, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void numOfPlotsTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numOfPlotsTxtFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_numOfPlotsTxtFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         // TODO add your handling code here:
-        String greetingResult = jTextField1.getText();
+        String greetingResult = numOfPlotsTxtField.getText();
         Inputs inputsDialog = new Inputs(this, true, greetingResult);
         inputsDialog.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_goButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,9 +146,9 @@ public class Greeting extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel chooseNumOfPlotsLabel;
+    private javax.swing.JLabel chooseNumOfPlotsLabelVNese;
+    private javax.swing.JButton goButton;
+    private javax.swing.JTextField numOfPlotsTxtField;
     // End of variables declaration//GEN-END:variables
 }
