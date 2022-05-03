@@ -5,17 +5,28 @@
  */
 package ui;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.CountDownLatch;
+import org.json.JSONArray;
+
 /**
  *
  * @author USER
  */
 public class Greeting extends javax.swing.JFrame {
-//    public String greetingResult;
+    public int numOfDialogs;
+    public JSONArray allPlotsJsonData;
+    public boolean readyForSubmission;
+
     /**
      * Creates new form Greeting
      */
     public Greeting() {
         initComponents();
+        this.numOfDialogs =0;
+        this.submitButton.setEnabled(false);
+        this.allPlotsJsonData = new JSONArray();
     }
 
     /**
@@ -31,8 +42,14 @@ public class Greeting extends javax.swing.JFrame {
         chooseNumOfPlotsLabelVNese = new javax.swing.JLabel();
         numOfPlotsTxtField = new javax.swing.JTextField();
         goButton = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+        dataReadyLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Algebra Plot");
+        setPreferredSize(new java.awt.Dimension(621, 200));
+        setSize(new java.awt.Dimension(0, 0));
 
         chooseNumOfPlotsLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         chooseNumOfPlotsLabel.setText("<html><body>How may plots do you want <br/>to draw in a frame?</body></html>");
@@ -58,42 +75,72 @@ public class Greeting extends javax.swing.JFrame {
             }
         });
 
+        submitButton.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(255, 51, 51));
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        errorLabel.setText("<html><body>invalid number <br/>(it 's must be an integer from 1 to 3)</body></html>");
+        errorLabel.setVisible(false);
+
+        dataReadyLabel.setForeground(new java.awt.Color(0, 204, 0));
+        dataReadyLabel.setText("<html><body>The plots datas have been ready. <br/>Click Submit button to draw all the plots</body></html>");
+        dataReadyLabel.setVisible(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(goButton)
-                .addContainerGap(43, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(194, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(103, 103, 103)
+                                .addComponent(dataReadyLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(goButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(goButton))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(chooseNumOfPlotsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dataReadyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(107, 107, 107))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(numOfPlotsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(goButton))))
-                .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(64, 64, 64)
-                    .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(27, Short.MAX_VALUE)))
+                        .addGap(36, 36, 36)
+                        .addComponent(chooseNumOfPlotsLabelVNese, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -103,12 +150,67 @@ public class Greeting extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_numOfPlotsTxtFieldActionPerformed
 
+    private boolean resultIsInterger(String res) {
+        try {
+            int resIntValue = Integer.parseInt(res);
+            if (resIntValue < 1 || resIntValue > 3) {
+                return false;
+            }
+        } catch (NumberFormatException exception) {
+            return false;
+        }
+        return true;
+    }
+
+//    private String getParametersJSONof
+    
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         // TODO add your handling code here:
         String greetingResult = numOfPlotsTxtField.getText();
-        Inputs inputsDialog = new Inputs(this, true, greetingResult);
-        inputsDialog.setVisible(true);
+        if (!this.resultIsInterger(greetingResult)) {
+            this.errorLabel.setVisible(true);
+            this.errorLabel.setFocusable(true);
+        } else {
+            this.errorLabel.setVisible(false);
+            
+            this.readyForSubmission = false;
+            Greeting self = this;
+            int numOfPlots = Integer.parseInt(greetingResult);
+            for(int i=0; i<numOfPlots; i ++){
+                Inputs plotInput = new Inputs(this, true, "Plot " + (i+1));
+                plotInput.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e){
+                        self.numOfDialogs--;
+                        self.allPlotsJsonData.put(plotInput.getJSONplotDatas());
+
+                        int totalPlotsNumber = Integer.parseInt(self.numOfPlotsTxtField.getText());
+                        self.readyForSubmission = (plotInput.numOrder == totalPlotsNumber);
+                        if (self.readyForSubmission){
+                            // the code run when the Greeting instance "readyForSubmission" run here
+                            self.submitButton.setEnabled(true);
+                            self.goButton.setEnabled(false);
+                            self.dataReadyLabel.setVisible(true);
+                            self.pack();
+                            System.out.println(self.allPlotsJsonData);
+                        }
+                    }
+                    @Override
+                    public void windowOpened(WindowEvent e){
+                        self.numOfDialogs ++;
+                    }
+                });
+                plotInput.setVisible(true);
+            }
+//            There is no way to make this event handler to wait until all the Inputs(extend JDialog) instance closed. 
+//            So if you want to do something when all the Inputs instance closed. You must do it in the "windowClosed" event handler
+        }
     }//GEN-LAST:event_goButtonActionPerformed
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+        System.out.println(this.allPlotsJsonData);
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,7 +250,10 @@ public class Greeting extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel chooseNumOfPlotsLabel;
     private javax.swing.JLabel chooseNumOfPlotsLabelVNese;
+    private javax.swing.JLabel dataReadyLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JButton goButton;
     private javax.swing.JTextField numOfPlotsTxtField;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }

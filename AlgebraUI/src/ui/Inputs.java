@@ -10,9 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import org.json.*;
 
 /**
  *
@@ -20,16 +22,21 @@ import javax.swing.JTextField;
  */
 public class Inputs extends javax.swing.JDialog {
     public JFrame parent;
+    public int numOrder;
     /**
      * Creates new form Inputs
      * @param parent
      * @param modal
      * @param param
      */
-    public Inputs(java.awt.Frame parent, boolean modal, String param ) {
+    public Inputs(java.awt.Frame parent, boolean modal, String title ) {
         super(parent, modal);
         initComponents();
-        this.submitButton.setEnabled(false);
+        this.titlePanel.setText(title);
+        this.commitButton.setEnabled(false);
+        this.numOrder = Integer.parseInt(title.charAt(title.length()-1)+"");
+        System.out.println(this.numOrder);
+//        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE );
     }
 
     /**
@@ -72,7 +79,7 @@ public class Inputs extends javax.swing.JDialog {
         eField = new javax.swing.JTextField();
         errorLabel = new javax.swing.JLabel();
         titlePanel = new javax.swing.JLabel();
-        submitButton = new javax.swing.JButton();
+        commitButton = new javax.swing.JButton();
 
         jRadioButton2.setText("jRadioButton2");
 
@@ -332,11 +339,11 @@ public class Inputs extends javax.swing.JDialog {
         titlePanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titlePanel.setText("PLOT 1");
 
-        submitButton.setFont(new java.awt.Font("Freestyle Script", 1, 24)); // NOI18N
-        submitButton.setText("Submit");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
+        commitButton.setFont(new java.awt.Font("Freestyle Script", 1, 24)); // NOI18N
+        commitButton.setText("Commit");
+        commitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
+                commitButtonActionPerformed(evt);
             }
         });
 
@@ -358,7 +365,7 @@ public class Inputs extends javax.swing.JDialog {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(commitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(148, 148, 148))
         );
         layout.setVerticalGroup(
@@ -373,7 +380,7 @@ public class Inputs extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(colorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(commitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9))
         );
 
@@ -511,7 +518,7 @@ public class Inputs extends javax.swing.JDialog {
             }
         }
         this.errorLabel.setVisible(!isValid);
-        this.submitButton.setEnabled(isValid && !emptyFieldExist);
+        this.commitButton.setEnabled(isValid && !emptyFieldExist);
     }
         
     private void findColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findColorButtonActionPerformed
@@ -556,12 +563,46 @@ public class Inputs extends javax.swing.JDialog {
         this.validateKeyTyped();
     }//GEN-LAST:event_eFieldFocusLost
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+    private void commitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commitButtonActionPerformed
         // TODO add your handling code here:
         // Its not necessary to invoke the function this.validateKeyTyped(). That function will be invoked when  
         // any of JTextFields in parametersPanel lose focus. 
-    }//GEN-LAST:event_submitButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_commitButtonActionPerformed
 
+    public String getJSONplotDatas(){
+        HashMap datasMap = new HashMap<String, Object>();
+//        Define "title" and "color" of plot
+        datasMap.put("title", this.titlePanel.getText());
+        datasMap.put("color", this.colorField.getText());
+//        Define "type" of plot
+        if (this.lineChoosen.isSelected()){
+            datasMap.put("type", "line");
+        } else if (this.parabolChoosen.isSelected()){
+            datasMap.put("type", "parabol");
+        } else if (this.cubicChoosen.isSelected()){
+            datasMap.put("type", "cubic");
+        } else if (this.quarticChoosen.isSelected()){
+            datasMap.put("type", "quartic");
+        }
+//        Define the all parameters of plot
+        HashMap subMapForParams = new HashMap<String, Object>();
+        subMapForParams.put("a", this.aField.getText());
+        subMapForParams.put("b", this.bField.getText());
+        if (this.cField.isShowing()){
+            subMapForParams.put("c", this.cField.getText());
+        }
+        if (this.dField.isShowing()){
+            subMapForParams.put("d", this.dField.getText());
+        }
+        if (this.eField.isShowing()){
+            subMapForParams.put("e", this.eField.getText());
+        }
+        datasMap.put("parameters", subMapForParams);
+//        then create, stringify and return an instance of JSON Object 
+        return new JSONObject(datasMap).toString();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -592,7 +633,7 @@ public class Inputs extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Inputs dialog = new Inputs(new javax.swing.JFrame(), true,"");
+                Inputs dialog = new Inputs(new javax.swing.JFrame(), true,"Plot x");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -619,6 +660,7 @@ public class Inputs extends javax.swing.JDialog {
     private javax.swing.JLabel choosePlotTypeLabel;
     private javax.swing.JTextField colorField;
     private javax.swing.JPanel colorPanel;
+    private javax.swing.JButton commitButton;
     private javax.swing.JRadioButton cubicChoosen;
     private javax.swing.JTextField dField;
     private javax.swing.JLabel dLabel;
@@ -635,7 +677,6 @@ public class Inputs extends javax.swing.JDialog {
     private javax.swing.JPanel parametersPanel;
     private javax.swing.JPanel plotTypePanel;
     private javax.swing.JRadioButton quarticChoosen;
-    private javax.swing.JButton submitButton;
     private javax.swing.JLabel titlePanel;
     // End of variables declaration//GEN-END:variables
 }
