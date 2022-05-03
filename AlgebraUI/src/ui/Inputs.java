@@ -334,6 +334,11 @@ public class Inputs extends javax.swing.JDialog {
 
         submitButton.setFont(new java.awt.Font("Freestyle Script", 1, 24)); // NOI18N
         submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -486,7 +491,7 @@ public class Inputs extends javax.swing.JDialog {
         return isValid;
     }
     
-    private void validateKeyTyped(java.awt.event.FocusEvent evt){
+    private void validateKeyTyped(){
         boolean isValid = true;
         Component[] componentsInParametersPanel = this.parametersPanel.getComponents();
         boolean emptyFieldExist = false;
@@ -497,8 +502,8 @@ public class Inputs extends javax.swing.JDialog {
                 if (txt.trim().length()==0){
                     emptyFieldExist = true;
                 }
-                System.out.println(emptyFieldExist);
-                System.out.println(txt);
+//                System.out.println(emptyFieldExist);
+//                System.out.println(txt);
                 if (!this.allCharactersIsValid(txt)){
                     isValid = false;
                     break;
@@ -528,28 +533,34 @@ public class Inputs extends javax.swing.JDialog {
 
     private void aFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_aFieldFocusLost
         // TODO add your handling code here:
-        this.validateKeyTyped(evt);
+        this.validateKeyTyped();
     }//GEN-LAST:event_aFieldFocusLost
 
     private void bFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bFieldFocusLost
         // TODO add your handling code here:
-        this.validateKeyTyped(evt);
+        this.validateKeyTyped();
     }//GEN-LAST:event_bFieldFocusLost
 
     private void cFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cFieldFocusLost
         // TODO add your handling code here:
-        this.validateKeyTyped(evt);
+        this.validateKeyTyped();
     }//GEN-LAST:event_cFieldFocusLost
 
     private void dFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dFieldFocusLost
         // TODO add your handling code here:
-        this.validateKeyTyped(evt);
+        this.validateKeyTyped();
     }//GEN-LAST:event_dFieldFocusLost
 
     private void eFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_eFieldFocusLost
         // TODO add your handling code here:
-        this.validateKeyTyped(evt);
+        this.validateKeyTyped();
     }//GEN-LAST:event_eFieldFocusLost
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+        // Its not necessary to invoke the function this.validateKeyTyped(). That function will be invoked when  
+        // any of JTextFields in parametersPanel lose focus. 
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
      * @param args the command line arguments
