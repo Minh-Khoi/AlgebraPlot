@@ -86,9 +86,10 @@ class Painter:
         rangeOY = rangeOXY["rangeOnY"]
         self.__drawOX(rangeOfValue=rangeOX)
         self.__drawOY(rangeOfValue=rangeOY)
+        self.__markCrossPoints()
         for plot in self.plotsList:
             if (isinstance(plot, (Line, Parabol, Cubic, Quartic))):
-                self.__markCrossPoints()
+                # print(self.listOfCrossPoints)
                 color = plot.color
                 
                 # mark the point on plot
@@ -126,7 +127,7 @@ class Painter:
         if len(self.plotsList) == 2:
             self.listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
             crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[0].sample, self.plotsList[1].sample)
-            # print(crossNote)
+            print(self.listOfCrossPoints)
             for point in self.listOfCrossPoints.items():
                 name = point[0]
                 x = self.__formatNumberShowed(point[1][0])
@@ -142,6 +143,7 @@ class Painter:
                 else :
                     crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[i].sample, self.plotsList[i+j].sample)
                     self.listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
+                    print(self.listOfCrossPoints)
                     for point in self.listOfCrossPoints.items():
                         name = point[0]
                         coord = point[1]
@@ -150,6 +152,8 @@ class Painter:
                         crossNote += "        {} : ({}, {}) \n".format(name, x, y)
                     j+=1
                     crossNote +=";"
+        # print(crossNote)
+        print(self.listOfCrossPoints)
         MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 

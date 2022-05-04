@@ -10,7 +10,7 @@ from Models.Helpers.PlotNote import PlotNote
 
 class Line:
 
-    def __init__(self, paramNums: list[int], selfPlot = True, color = None) -> None:
+    def __init__(self, paramNums: list[float], selfPlot = True, color = None) -> None:
         self.sample = "y = {a}x + {b}".format(a=paramNums[0], b=paramNums[1])
         self.paramNumbers = {"a" : paramNums[0] , "b" : paramNums[1]}
         self.axes : plt.Axes

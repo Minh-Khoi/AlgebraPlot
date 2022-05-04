@@ -5,6 +5,7 @@
  */
 package ui;
 
+import cmdpackage.CMDinvoker;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.CountDownLatch;
@@ -162,7 +163,6 @@ public class Greeting extends javax.swing.JFrame {
         return true;
     }
 
-//    private String getParametersJSONof
     
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         // TODO add your handling code here:
@@ -192,7 +192,7 @@ public class Greeting extends javax.swing.JFrame {
                             self.goButton.setEnabled(false);
                             self.dataReadyLabel.setVisible(true);
                             self.pack();
-                            System.out.println(self.allPlotsJsonData);
+//                            System.out.println(self.allPlotsJsonData);
                         }
                     }
                     @Override
@@ -207,9 +207,13 @@ public class Greeting extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_goButtonActionPerformed
 
+    
+    
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(this.allPlotsJsonData);
+//        System.out.println(this.allPlotsJsonData);
+        CMDinvoker invoker = new CMDinvoker(this.allPlotsJsonData.toString());
+        invoker.run();
     }//GEN-LAST:event_submitButtonActionPerformed
 
     /**

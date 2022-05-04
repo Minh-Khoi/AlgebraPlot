@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -23,6 +24,7 @@ import org.json.*;
 public class Inputs extends javax.swing.JDialog {
     public JFrame parent;
     public int numOrder;
+    public int parametersCount;
     /**
      * Creates new form Inputs
      * @param parent
@@ -35,7 +37,7 @@ public class Inputs extends javax.swing.JDialog {
         this.titlePanel.setText(title);
         this.commitButton.setEnabled(false);
         this.numOrder = Integer.parseInt(title.charAt(title.length()-1)+"");
-        System.out.println(this.numOrder);
+//        System.out.println(this.numOrders);
 //        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE );
     }
 
@@ -78,6 +80,7 @@ public class Inputs extends javax.swing.JDialog {
         eLabel = new javax.swing.JLabel();
         eField = new javax.swing.JTextField();
         errorLabel = new javax.swing.JLabel();
+        sampleLabel = new javax.swing.JLabel();
         titlePanel = new javax.swing.JLabel();
         commitButton = new javax.swing.JButton();
 
@@ -219,9 +222,11 @@ public class Inputs extends javax.swing.JDialog {
 
         aLabel.setDisplayedMnemonic('a');
         aLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        aLabel.setLabelFor(aField);
         aLabel.setText("a");
 
         dLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        dLabel.setLabelFor(dField);
         dLabel.setText("d");
         dLabel.setVisible(false);
 
@@ -233,6 +238,7 @@ public class Inputs extends javax.swing.JDialog {
         });
 
         bLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bLabel.setLabelFor(bField);
         bLabel.setText("b");
 
         bField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -242,6 +248,7 @@ public class Inputs extends javax.swing.JDialog {
         });
 
         cLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        cLabel.setLabelFor(cField);
         cLabel.setText("c");
         cLabel.setVisible(false);
 
@@ -253,10 +260,10 @@ public class Inputs extends javax.swing.JDialog {
         });
 
         eLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        eLabel.setLabelFor(eField);
         eLabel.setText("e");
         eLabel.setVisible(false);
 
-        eField.setToolTipText("");
         eField.setVisible(false);
         eField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -270,52 +277,64 @@ public class Inputs extends javax.swing.JDialog {
         errorLabel.setText("<html><body>Please type number in the right numeric format <br/> Hãy nhập đúng định dạng số</body></html>");
         errorLabel.setVisible(false);
 
+        sampleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        sampleLabel.setForeground(new java.awt.Color(0, 204, 0));
+        sampleLabel.setText("sample");
+
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
         parametersPanel.setLayout(parametersPanelLayout);
         parametersPanelLayout.setHorizontalGroup(
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(getParamsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87)
-                .addComponent(aField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(getParamsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sampleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66)
                 .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(parametersPanelLayout.createSequentialGroup()
-                        .addComponent(aLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parametersPanelLayout.createSequentialGroup()
-                        .addGap(0, 3, Short.MAX_VALUE)
-                        .addComponent(dField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dLabel)
-                        .addGap(82, 82, 82)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(parametersPanelLayout.createSequentialGroup()
-                        .addComponent(bLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
-                        .addComponent(cField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(aField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cLabel))
-                    .addGroup(parametersPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(eField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(parametersPanelLayout.createSequentialGroup()
+                                .addComponent(aLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parametersPanelLayout.createSequentialGroup()
+                                .addGap(0, 3, Short.MAX_VALUE)
+                                .addComponent(dField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dLabel)
+                                .addGap(82, 82, 82)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eLabel)))
-                .addGap(78, 78, 78))
-            .addGroup(parametersPanelLayout.createSequentialGroup()
-                .addGap(232, 232, 232)
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(parametersPanelLayout.createSequentialGroup()
+                                .addComponent(bLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(cField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cLabel))
+                            .addGroup(parametersPanelLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(eField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eLabel)))
+                        .addGap(78, 78, 78))))
         );
         parametersPanelLayout.setVerticalGroup(
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
                 .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(parametersPanelLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addComponent(getParamsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sampleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(parametersPanelLayout.createSequentialGroup()
                         .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(aField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(aLabel)
@@ -323,16 +342,15 @@ public class Inputs extends javax.swing.JDialog {
                             .addComponent(bLabel)
                             .addComponent(cField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(eLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(dField, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                                .addComponent(dField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(dLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(eField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)))
-                    .addComponent(getParamsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(eField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         titlePanel.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
@@ -373,7 +391,7 @@ public class Inputs extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(plotTypePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -395,6 +413,8 @@ public class Inputs extends javax.swing.JDialog {
             this.dLabel.setVisible(false);
             this.eField.setVisible(false);
             this.eLabel.setVisible(false);
+            this.sampleLabel.setText("y = a*x + b");
+            this.parametersCount = 2;
         } else if (radioButton.equals(this.parabolChoosen)){
             this.cField.setVisible(true);
             this.cLabel.setVisible(true);
@@ -402,6 +422,8 @@ public class Inputs extends javax.swing.JDialog {
             this.dLabel.setVisible(false);
             this.eField.setVisible(false);
             this.eLabel.setVisible(false);
+            this.sampleLabel.setText("y = a * x^2 + b*x + c");
+            this.parametersCount = 3;
         } else if (radioButton.equals(this.cubicChoosen)){
             this.cField.setVisible(true);
             this.cLabel.setVisible(true);
@@ -409,6 +431,8 @@ public class Inputs extends javax.swing.JDialog {
             this.dLabel.setVisible(true);
             this.eField.setVisible(false);
             this.eLabel.setVisible(false);
+            this.sampleLabel.setText("y = a * x^3 + b * x^2 + c*x + d");
+            this.parametersCount = 4;
         } else if (radioButton.equals(this.quarticChoosen)){
             this.cField.setVisible(true);
             this.cLabel.setVisible(true);
@@ -416,6 +440,8 @@ public class Inputs extends javax.swing.JDialog {
             this.dLabel.setVisible(true);
             this.eField.setVisible(true);
             this.eLabel.setVisible(true);
+            this.sampleLabel.setText("y = a * x^4 + b * x^3 + c * x^2 + d*x + e");
+            this.parametersCount = 5;
         }
     }
     
@@ -570,7 +596,7 @@ public class Inputs extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_commitButtonActionPerformed
 
-    public String getJSONplotDatas(){
+    public JSONObject getJSONplotDatas(){
         HashMap datasMap = new HashMap<String, Object>();
 //        Define "title" and "color" of plot
         datasMap.put("title", this.titlePanel.getText());
@@ -586,21 +612,23 @@ public class Inputs extends javax.swing.JDialog {
             datasMap.put("type", "quartic");
         }
 //        Define the all parameters of plot
-        HashMap subMapForParams = new HashMap<String, Object>();
-        subMapForParams.put("a", this.aField.getText());
-        subMapForParams.put("b", this.bField.getText());
-        if (this.cField.isShowing()){
-            subMapForParams.put("c", this.cField.getText());
+        ArrayList subArrayForParams = new ArrayList();
+//        It is neccessary to cover the number values with bracket. 
+//        Then when the python module parse them, they will be considered as string
+        subArrayForParams.add("\""+ this.aField.getText()+"\"");
+        subArrayForParams.add("\""+ this.bField.getText()+"\"");
+        if (this.parametersCount > 2){
+            subArrayForParams.add("\""+ this.cField.getText()+"\"");
         }
-        if (this.dField.isShowing()){
-            subMapForParams.put("d", this.dField.getText());
+        if (this.parametersCount > 3){
+            subArrayForParams.add("\""+ this.dField.getText()+"\"");
         }
-        if (this.eField.isShowing()){
-            subMapForParams.put("e", this.eField.getText());
+        if (this.parametersCount > 4){
+            subArrayForParams.add("\""+ this.eField.getText()+"\"");
         }
-        datasMap.put("parameters", subMapForParams);
+        datasMap.put("parameters", subArrayForParams);
 //        then create, stringify and return an instance of JSON Object 
-        return new JSONObject(datasMap).toString();
+        return new JSONObject(datasMap);
     }
     
     /**
@@ -677,6 +705,7 @@ public class Inputs extends javax.swing.JDialog {
     private javax.swing.JPanel parametersPanel;
     private javax.swing.JPanel plotTypePanel;
     private javax.swing.JRadioButton quarticChoosen;
+    private javax.swing.JLabel sampleLabel;
     private javax.swing.JLabel titlePanel;
     // End of variables declaration//GEN-END:variables
 }

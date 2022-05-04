@@ -57,7 +57,7 @@ class Controller:
         error = ""
         for plotInfo in dataPlots:
             typeOfPlot = plotInfo["type"]
-            paramNums = plotInfo["paramNums"]
+            paramNums = plotInfo["parameters"]
             color = plotInfo["color"]
             if typeOfPlot == "line":
                 if len(paramNums) != 2:
