@@ -47,12 +47,22 @@ class MultiNotes:
             All other keyword arguments are passed to plt.text(), so you can
             set the font size, family, etc.
         """
+        # lineCounts = self.__findTotalNotesLines(strings)
+        smallizeLinesTo = 0.06
+        # noteHeight = smallizeLinesTo * lineCounts
         if orientation == 'vertical':
             kwargs.update(rotation=90, verticalalignment='bottom')
         for s, c in zip(strings, colors):
             countLines = s.count("\n") 
             text = ax.text(x, y, s + " ", color=c, **kwargs)
-            y += countLines * 0.065
+            y += countLines * smallizeLinesTo
+
+    # def __findTotalNotesLines(self, strings : list[str]):
+    #     lineCounts = 0
+    #     for string in strings:
+    #         lineCounts += (string.count("\n"))
+    #     return lineCounts
+    #     pass
 
     def initMultiNotes(self, axesNotes: plt.Axes = None, plotInstances : list = [] )-> str:
         showedStringTotal =""

@@ -19,10 +19,12 @@ class Painter:
             print("Number of plots must be 2 or 3")
             return
         self.plotsList = plotsList
-        self.listOfCrossPoints = []
+        self.listOfCrossPoints = {}
         self.axes : plt.Axes = None
         self.noteAxes: plt.Axes = None
-        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, figsize=(15,6), gridspec_kw={'width_ratios': [1, 1]})
+        self.fig, (self.axes, self.noteAxes) = plt.subplots(nrows=1, ncols=2, figsize=(15,6),
+                                                                    gridspec_kw={'width_ratios': [1, 1]})
+
         self.listOfColors = [ "black", "green", "blue", "orange", "yellow", "grey", "pink", "purple"]
         pass
 
@@ -118,42 +120,48 @@ class Painter:
                 self.axes.plot(xOfPoints,yOfPoints,color=color)
 
         self.axes.axis("equal")
-        
         plt.tight_layout()
+        plt.subplots_adjust(top=0.9)
         plt.show()
 
     def __markCrossPoints(self):
         crossNote = ""
+        listOfDemoPointName = ["S", "T", "U", "V", "W"]
         if len(self.plotsList) == 2:
-            self.listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve()
+            self.listOfCrossPoints = EquationSolver(self.plotsList[0], self.plotsList[1]).solve("S")
             crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[0].sample, self.plotsList[1].sample)
-            print(self.listOfCrossPoints)
+
             for point in self.listOfCrossPoints.items():
                 name = point[0]
                 x = self.__formatNumberShowed(point[1][0])
                 y = self.__formatNumberShowed(point[1][1])
+                self.axes.text(point[1][0], point[1][1], name, color="#9806F6")
                 crossNote += "        {} : ({}, {}) \n".format(name, x, y)
         elif len(self.plotsList) == 3:
             i= 0
             j = 1
+            couplePlotsCount = 0
             while 1 + i < len(self.plotsList):
                 if i+j == len(self.plotsList):
                     i += 1
                     j = 1
                 else :
+                    couplePlotsCount +=1
                     crossNote += "    '{}' cross with '{}': \n".format(self.plotsList[i].sample, self.plotsList[i+j].sample)
-                    self.listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j]).solve()
-                    print(self.listOfCrossPoints)
+                    self.listOfCrossPoints = EquationSolver(self.plotsList[i], self.plotsList[i+j])\
+                                                                            .solve(listOfDemoPointName[couplePlotsCount])
+                    # print(self.listOfCrossPoints)x
                     for point in self.listOfCrossPoints.items():
                         name = point[0]
                         coord = point[1]
                         x = self.__formatNumberShowed(point[1][0])
                         y = self.__formatNumberShowed(point[1][1])
+                        self.axes.text(point[1][0], point[1][1], name, color="#9806F6")
                         crossNote += "        {} : ({}, {}) \n".format(name, x, y)
                     j+=1
                     crossNote +=";"
         # print(crossNote)
-        print(self.listOfCrossPoints)
+        # print(self.listOfCrossPoints)
         MultiNotes(moreNotes=crossNote).initMultiNotes(self.noteAxes, plotInstances=self.plotsList)
         pass
 

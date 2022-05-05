@@ -58,7 +58,7 @@ class EquationSolver:
             return returnedPlot
         pass
 
-    def solve(self):
+    def solve(self, pretextPoint):
         if isinstance(self.pseudoPlot, (Cubic, Line, Parabol, Quartic)):
             pseudoSpecialPoints = {}
             countS= 0
@@ -69,7 +69,7 @@ class EquationSolver:
                     countS += 1
                     x = coord[0]
                     y = self.minorPlot.applyRecipe([coord[0]])[0]
-                    pseudoSpecialPoints["S" + str(countS)] = (x,y) 
+                    pseudoSpecialPoints[pretextPoint + str(countS)] = (x,y) 
             return pseudoSpecialPoints
         pass
 
