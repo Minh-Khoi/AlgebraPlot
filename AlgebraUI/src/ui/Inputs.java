@@ -279,6 +279,7 @@ public class Inputs extends javax.swing.JDialog {
 
         sampleLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         sampleLabel.setForeground(new java.awt.Color(0, 204, 0));
+        sampleLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         sampleLabel.setText("sample");
 
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
@@ -309,16 +310,16 @@ public class Inputs extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dLabel)
                                 .addGap(82, 82, 82)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(parametersPanelLayout.createSequentialGroup()
-                                .addComponent(bLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
                                 .addComponent(cField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cLabel))
                             .addGroup(parametersPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
+                                .addGap(24, 24, 24)
                                 .addComponent(eField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(eLabel)))

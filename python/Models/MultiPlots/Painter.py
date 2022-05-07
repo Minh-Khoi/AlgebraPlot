@@ -156,7 +156,8 @@ class Painter:
                         coord = point[1]
                         x = self.__formatNumberShowed(point[1][0])
                         y = self.__formatNumberShowed(point[1][1])
-                        self.axes.text(point[1][0], point[1][1], name, color="#9806F6")
+                        self.axes.text(coord[0], coord[1], name, color="#9806F6")
+                        # print(coord)
                         crossNote += "        {} : ({}, {}) \n".format(name, x, y)
                     j+=1
                     crossNote +=";"

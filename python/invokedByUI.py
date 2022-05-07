@@ -18,7 +18,7 @@ dataJSONencoded = sys.argv[2]
 
 # print(dataJSONencoded)
 datasJSON = base64.b64decode(dataJSONencoded).decode("utf-8")
-print((datasJSON))
+# print((datasJSON))
 datas = json.loads(datasJSON)
 if (len(datas)>1):
     listOfPlots = []

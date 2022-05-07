@@ -41,7 +41,7 @@ class Controller:
                 cubic = Cubic(paramNums=paramNums, color=color)
                 cubic.generatePlot(rangesX=rangeX, rangesY=rangeY)
         elif typeOfPlot == "quartic":
-            if len(paramNums) != 4:
+            if len(paramNums) != 5:
                 error = "There must be and only be 05 - five parameters"
                 print(error)
                 return
