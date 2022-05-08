@@ -1,0 +1,16 @@
+Xin chào!! Mình là Minh Khôi
+Mình làm video này để demo về project cá nhân mới nhất của mình:
+Ứng dụng vẽ đồ thị hàm số - Algebra Plots:
+
+Algebra Plots là ứng dụng desktop có chức năng vẽ từ một đến ba đồ thị 
+hàm số (từ bậc một đến bậc 4) trên một hệ trục tọa độ Oxy. Ứng dụng được
+xây dựng bằng Python và Java.
+
+Chúng ta có thể chạy ứng dụng thông qua giao diện dòng lệnh (command line)
+và giao diện đồ họa được xây dựng bằng Java Swing.
+
+- Mình sẽ chạy giao diện dòng lệnh trước: Các bạn vào thư mục "python" 
+và chạy file "run.cmd"
+
+- Để chạy giao diện đồ họa, các bạn vào thư mục "AlgebraUI" và chạy file
+"run.cmd".
